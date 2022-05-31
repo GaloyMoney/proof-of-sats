@@ -1,0 +1,21 @@
+{
+  "name": "proof-of-liabilities",
+  "version": "1.0.0",
+  "description": "library to implement proof-of-liabilities.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "proof",
+    "of",
+    "liabilities"
+  ],
+  "author": "Vaibhav Dixit",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^17.0.36",
+    "typescript": "^4.2.2"
+  }
+}
