@@ -39,3 +39,11 @@ TreeNode = {
     hash : Hash, 
     sum : number
 }
+
+## Test
+
+Test with Jest framework:
+
+```bash
+yarn test
+```
