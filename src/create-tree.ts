@@ -1,5 +1,8 @@
 import {createHash} from "crypto";
 
+// TODO: Still have to implement the hashing with nonce and blockheight
+// generate the initial hash and sum that is present on the leaf. 
+
 const getLeaf = (liability: Liability, idx: number): TreeNode => {
     const data = `${liability.accountId}${liability.walletBalance}${idx}`
     return {

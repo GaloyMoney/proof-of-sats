@@ -1,32 +1,10 @@
-const randomInt = (min: number, max: number): number => {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
+import { randomInt, shuffle } from './utils'
 
 export const createLiabilities = (accounts: UserInfo[]): Liability[] => {
-    let liabilites: Liability[] = []
-    accounts.forEach((account) => {
-        liabilites.push({
-            accountId: account.accountId.toString(),
-            walletBalance: parseInt(account.balance.toString())
-        })
-    })
-    liabilites = randomlyDistributeLiabilities(liabilites)
-    const stretchedLiabilites = getStretchedLiabilities(liabilites)
-    return randomlyDistributeLiabilities(stretchedLiabilites)
-
-}
-
-const randomlyDistributeLiabilities = (liabilities: Liability[]): Liability[] => {
-    let curr = liabilities.length
-    while (curr > 0) {
-        curr--
-        const idx = Math.floor(Math.random() * curr)
-        const temp = liabilities[curr]
-        liabilities[curr] = liabilities[idx]
-        liabilities[idx] = temp
-    }
-    return liabilities
+    let liabilities = accounts.map(({ accountId, balance }) => ({ accountId: accountId, walletBalance: balance }))
+    liabilities = shuffle(liabilities)
+    const stretchedliabilities = getStretchedLiabilities(liabilities)
+    return shuffle(stretchedliabilities)
 }
 
 const getStretchedLiabilities = (liabilities: Liability[]): Liability[] => {
