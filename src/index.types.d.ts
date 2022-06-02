@@ -1,18 +1,18 @@
 type Liability = {
-   accountId : string,
-   walletBalance : number,
+  accountId: string
+  walletBalance: number
 }
- 
+
 type TreeNode = {
-   hash : string,
-   sum : number
+  hash: string
+  sum: number
 }
- 
+
 type UserInfo = {
-   accountId : string
-   balance : number,
+  accountId: string
+  balance: number
 }
- 
+
 type Proof = TreeNode & {
-   idx : number
+  idx: number
 }

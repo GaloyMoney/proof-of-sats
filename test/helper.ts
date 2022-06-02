@@ -1,1 +1,7 @@
-export const testAccounts = [{ accountId: "234324", balance: 32413 }, { accountId: "234342hgdfg4", balance: 3242131 }, { accountId: "2sfaad34324", balance: 324.243 }, { accountId: "23434fsd24", balance: 324.21 }, { accountId: "234jyud324", balance: 3241 }]
+export const testAccounts = [
+  { accountId: '234324', balance: 32413 },
+  { accountId: '234342hgdfg4', balance: 3242131 },
+  { accountId: '2sfaad34324', balance: 324.243 },
+  { accountId: '23434fsd24', balance: 324.21 },
+  { accountId: '234jyud324', balance: 3241 },
+]
