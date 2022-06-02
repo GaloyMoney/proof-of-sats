@@ -33,7 +33,7 @@ export const createLiabilities = (accounts: UserInfo[]): Liability[] => {
 }
 
 // Create a merkle tree from the accounts
-export const createLiabilitiesTree = (accounts: UserInfo[]) => {
+export const createLiabilitiesTreeFromAccounts = (accounts: UserInfo[]) => {
   const liabilities = createLiabilities(accounts)
   const leaves = liabilities.map((liability, idx) => getLeaf(liability, idx))
   const tree = [leaves]
@@ -51,8 +51,9 @@ export const createLiabilitiesTree = (accounts: UserInfo[]) => {
     tree.push(rowNodes)
     rowIndex++
   }
-  return tree.reverse()
+  return LiabilitesTree(tree.reverse())
 }
+
 
 // function to split the liabilities till they are equal to a power of 2
 const getStretchedLiabilities = (liabilities: Liability[]): Liability[] => {
@@ -90,4 +91,19 @@ const getStretchedLiabilities = (liabilities: Liability[]): Liability[] => {
   }
 
   return finalLiabilities
+}
+
+
+
+
+const LiabilitiesTree = (treeRows: TreeNode[][]) : LiabilitiesTree => {
+
+  const generateLiabilitiesProof = () => {
+
+  }
+
+  return {
+    data: treeRows,
+    generateLiabilitiesProof,
+  }
 }
