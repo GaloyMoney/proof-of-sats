@@ -28,8 +28,8 @@ const tree = createLiabilitiesTree(userInfo)
 
 ### createLiabilitiesTree
 
-Generate a liabilities tree from the given list of liabilities.
-The function accepts a list of liabilities and returns a merkle tree.
+Generate a liabilities' tree from the given list of userInfo.
+The function accepts a list of userInfo and returns a merkle tree.
 The tree is made up of TreeNodes. The structure of a TreeNode is defined below.
 
 ```
