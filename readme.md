@@ -39,7 +39,7 @@ TreeNode = {
     hash : Hash, 
     sum : number
 }
-
+```
 ## Test
 
 Test with Jest framework:
