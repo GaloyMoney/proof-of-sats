@@ -1,3 +1,5 @@
+import { createHash } from 'crypto'
+
 // to generate a random integer between min (inclusive) and max (inclusive).
 export const randomInt = (min = 0, max: number): number => {
   if (min > max) {
@@ -22,4 +24,16 @@ export const shuffle = <T>(arr: T[]): T[] => {
     result[randIdx] = temp
   }
   return result
+}
+
+// Combine the two nodes to generate their parent node
+export const nodeCombiner = (
+  leftChild: TreeNode,
+  rightChild: TreeNode
+): TreeNode => {
+  const data = `${leftChild.hash}${leftChild.sum}${rightChild.hash}${rightChild.sum}`
+  return {
+    hash: createHash('sha256').update(data).digest('hex'),
+    sum: leftChild.sum + rightChild.sum,
+  }
 }
