@@ -1,7 +1,15 @@
 // Still a work in progress!!
 
 import { createHash } from 'crypto'
+import { nodeCombiner } from './utils'
 
+/**
+ * returns the calculated hash of the given data
+ * @param accountId
+ * @param leaf
+ * @param idx
+ * @returns {string}
+ */
 export const generateLeafForAccount = (
   accountId: string,
   leaf: TreeNode,
@@ -11,6 +19,13 @@ export const generateLeafForAccount = (
   return createHash('sha256').update(data).digest('hex')
 }
 
+/**
+ * returns PartialProof for a given node
+ *
+ * @param idx
+ * @param tree
+ * @returns {PartialLiabilityProof}
+ */
 export const generatePartialProof = (
   idx: number,
   tree: Array<Array<TreeNode>>
@@ -34,6 +49,12 @@ export const generatePartialProof = (
   }
 }
 
+/**
+ * returns the LiabilityProof for a given account
+ * @param accountId
+ * @param tree
+ * @returns {LiabilityProof}
+ */
 export const createProof = (
   accountId: string,
   tree: Array<Array<TreeNode>>
@@ -51,4 +72,40 @@ export const createProof = (
     accountId: accountId,
     partialLiabilityProofs: partialLiabilityProofs,
   }
+}
+
+export const isLiabilityIncludedInTree = (
+  liabilityProof: LiabilityProof,
+  rootHash: string
+) => {
+  if (liabilityProof.partialLiabilityProofs.length == 0) {
+    return false
+  }
+  let isValid = true
+  liabilityProof.partialLiabilityProofs.forEach((partialProof) => {
+    if (!isPartialProofValid(partialProof.merklePath, rootHash)) {
+      isValid = false
+    }
+  })
+  return isValid
+}
+
+const isPartialProofValid = (
+  merklePath: MerklePath[],
+  rootHash: string
+): boolean => {
+  let currentNode = merklePath[0].node
+  let rightNode: TreeNode
+  let leftNode: TreeNode
+  for (let i = 1; i < merklePath.length; i++) {
+    if (merklePath[i].index % 2 == 1) {
+      rightNode = merklePath[i].node
+      leftNode = currentNode
+    } else {
+      leftNode = merklePath[i].node
+      rightNode = currentNode
+    }
+    currentNode = nodeCombiner(leftNode, rightNode)
+  }
+  return currentNode.hash === rootHash
 }
