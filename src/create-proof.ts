@@ -1,29 +1,54 @@
 // Still a work in progress!!
 
-// TODO: complete the function that fetches the tree
-
 import { createHash } from 'crypto'
-const getTree = (): Array<TreeNode>[] => {
-  return []
-}
 
-const createHashForAccount = (
+export const generateLeafForAccount = (
   accountId: string,
-  idx: number,
-  leaf: TreeNode
-) => {
-  return createHash('sha256')
-    .update(`${accountId}${leaf.sum}${idx}`)
-    .digest('hex')
+  leaf: TreeNode,
+  idx: number
+): string => {
+  const data = `${accountId}${leaf.sum}${idx}`
+  return createHash('sha256').update(data).digest('hex')
 }
 
-export const createProof = (accountId: string): Proof[] => {
-  // get the tree
-  // from the tree construct the proof for the given accountId
-  const tree: Array<TreeNode>[] = getTree()
-  const leaves = tree[0]
-  const index = leaves.filter((leaf, idx) => {
-    return leaf.hash === createHashForAccount(accountId, idx, leaf)
+export const generatePartialProof = (
+  idx: number,
+  tree: Array<Array<TreeNode>>
+): PartialLiabilityProof => {
+  let i = tree.length - 1
+  const path: MerklePath[] = []
+  const balance = tree[i][idx].sum
+  path.push({ node: tree[i][idx], index: idx })
+  while (i > 0) {
+    if (idx % 2 === 0) {
+      path.push({ node: tree[i][idx + 1], index: idx + 1 })
+    } else {
+      path.push({ node: tree[i][idx - 1], index: idx - 1 })
+    }
+    idx = Math.floor(idx / 2)
+    i--
+  }
+  return {
+    merklePath: path,
+    balance: balance,
+  }
+}
+
+export const createProof = (
+  accountId: string,
+  tree: Array<Array<TreeNode>>
+): LiabilityProof => {
+  const leaves = tree[tree.length - 1]
+  const leafIndex: Array<number> = []
+  leaves.forEach((leaf, idx) => {
+    if (leaf.hash === generateLeafForAccount(accountId, leaf, idx))
+      leafIndex.push(idx)
   })
-  return []
+  const partialLiabilityProofs: PartialLiabilityProof[] = leafIndex.map((idx) =>
+    generatePartialProof(idx, tree)
+  )
+  return {
+    accountId: accountId,
+    partialLiabilityProofs: partialLiabilityProofs,
+  }
 }
