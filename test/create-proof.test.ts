@@ -3,28 +3,33 @@ import { tree } from './helper'
 
 describe('Test the createProof function', () => {
   it('should return a LiabilityProof object', () => {
-    const result = createProof('04', tree)
+    const liabilityProof = createProof('04', tree)
     const expectedBalance = 121
     let calculatedBalance = 0
-    result.partialLiabilityProofs.forEach((proof) => {
+    liabilityProof.partialLiabilityProofs.forEach((proof) => {
       calculatedBalance += proof.balance
     })
-    expect(result).toBeInstanceOf(Object)
-    expect(result.accountId).toBe('04')
+    expect(liabilityProof).toBeInstanceOf(Object)
+    expect(liabilityProof.accountId).toBe('04')
     expect(calculatedBalance).toBe(expectedBalance)
-    expect(result.partialLiabilityProofs.length).toBe(2)
+    expect(liabilityProof.partialLiabilityProofs.length).toBe(2)
   })
   // test when an account has a balance of 0
   it('should return a LiabilityProof object', () => {
-    const result = createProof('02', tree)
+    const liabilityProof = createProof('02', tree)
     const expectedBalance = 0
     let calculatedBalance = 0
-    result.partialLiabilityProofs.forEach((proof) => {
+    liabilityProof.partialLiabilityProofs.forEach((proof) => {
       calculatedBalance += proof.balance
     })
-    expect(result).toBeInstanceOf(Object)
-    expect(result.accountId).toBe('02')
+    expect(liabilityProof).toBeInstanceOf(Object)
+    expect(liabilityProof.accountId).toBe('02')
     expect(calculatedBalance).toBe(expectedBalance)
-    expect(result.partialLiabilityProofs.length).toBeGreaterThan(1)
+    expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
+  })  
+  it('should return an empty object for an invalid accountId', () => {
+    const liabilityProof = createProof('123', tree)
+    expect(liabilityProof).toBeInstanceOf(Object)
+    expect(liabilityProof.partialLiabilityProofs.length).toBe(0)
   })
 })
