@@ -26,7 +26,7 @@ describe('Test the createProof function', () => {
     expect(liabilityProof.accountId).toBe('02')
     expect(calculatedBalance).toBe(expectedBalance)
     expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
-  })  
+  })
   it('should return an empty object for an invalid accountId', () => {
     const liabilityProof = createProof('123', tree)
     expect(liabilityProof).toBeInstanceOf(Object)

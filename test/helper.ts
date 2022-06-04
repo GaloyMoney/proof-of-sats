@@ -6,7 +6,7 @@ export const testAccounts = [
   { accountId: '234jyud324', balance: 3241 },
 ]
 
-const testAccountsForTree: Liability[] = [
+export const testAccountsForTree: Liability[] = [
   { accountId: '01', balance: 23 },
   { accountId: '02', balance: 0 },
   { accountId: '03', balance: 13 },
