@@ -70,6 +70,7 @@ export const generateTree = (leaves: TreeNode[]): Array<Array<TreeNode>> => {
   return tree
 }
 
+// IMPORTANT NOTE: At present this function assumes that the liabilities will have an integer balance.
 const getStretchedLiabilities = (liabilities: Liability[]): Liability[] => {
   let finalLiabilities: Liability[] = liabilities
   const currSize = liabilities.length * 2
