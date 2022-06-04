@@ -1,5 +1,3 @@
-// Still a work in progress!!
-
 import { createHash } from 'crypto'
 import { nodeCombiner } from './utils'
 
