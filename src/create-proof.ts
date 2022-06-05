@@ -88,6 +88,13 @@ export const isLiabilityIncludedInTree = (
   return isValid
 }
 
+
+/**
+ *  Accepts a rootHash and a list of merklePaths and returns if the proof is valid
+ * @param merklePath 
+ * @param rootHash 
+ * @returns {boolean}
+ */
 const isPartialProofValid = (
   merklePath: MerklePath[],
   rootHash: string
