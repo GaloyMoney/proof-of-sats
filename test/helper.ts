@@ -13,6 +13,144 @@ export const testAccountsForTree: Liability[] = [
   { accountId: '04', balance: 121 },
   { accountId: '05', balance: 12 },
 ]
+
+export const treeFromTestAccounts: Array<Array<TreeNode>> = [
+  [
+    {
+      hash: 'b419206402d832a7616bd20e34c6fed92756de86de93db11363da425fdb0a8f3',
+      sum: 169,
+    },
+  ],
+  [
+    {
+      hash: '2f3f24746c39ed194854a1bb3e70c72ce5e8edb6ebda2a49cd0f2b81f63c758f',
+      sum: 114,
+    },
+    {
+      hash: '605b5d486d6421900e6f890ea6478c75fc9351f372ffd07d8a9a7b76ca1b6cbf',
+      sum: 55,
+    },
+  ],
+  [
+    {
+      hash: '435eecfa56b55f04b71ce3255792167c29cb6ed6cb8479c16bcaa95db564e431',
+      sum: 87,
+    },
+    {
+      hash: 'ff75e78131e351a66791612c306e842dd95ee2a529ad7aa975e48c78259de84c',
+      sum: 27,
+    },
+    {
+      hash: '92a0d0b36c15b0ccc5999522e45222bac16975d72f7da2031e91583f18cf2725',
+      sum: 31,
+    },
+    {
+      hash: 'ff2396455f68782e8264f8b6e297a215adb2d7b100461b8075bbdbf64a0e7849',
+      sum: 24,
+    },
+  ],
+  [
+    {
+      hash: 'a9819fece07ecaa1044acaf20dac98bb66dc20eec1dd520474bbf532c0791ea7',
+      sum: 0,
+    },
+    {
+      hash: 'a6cca1428fe7073e6bb15059474116e91071f10a1159b6258482cbbbb4a8e13b',
+      sum: 87,
+    },
+    {
+      hash: '1ad3efc3c8400d7d8d58e7fdb916762f0d6155d413703103e6ff4db59a4f7ee4',
+      sum: 16,
+    },
+    {
+      hash: 'fd29b46247232e404614b9574f6c0a3e0b2c2237931ad6cfb929b531ebd3bff3',
+      sum: 11,
+    },
+    {
+      hash: 'e79a410078993789125ec2187f7b667ea168f04e20cc7aebc648158a9b357d10',
+      sum: 1,
+    },
+    {
+      hash: '5e03aff0fa86a8b46e0f79d2e3bad158dfd5e5a4accde35b73bd2482dee031fa',
+      sum: 30,
+    },
+    {
+      hash: '071d92597bac4bffe7ac3d3d9a4a3bacae2054579fc0e5e47dfcad1e2632b29c',
+      sum: 4,
+    },
+    {
+      hash: '3ddb223999813c67f374e87e820599265c390bf9526537ad440595270d6abfc6',
+      sum: 20,
+    },
+  ],
+  [
+    {
+      hash: 'abe7e80850b4460618ffcfb684906568924c9afe6f07a3fb48c588c554290e1b',
+      sum: 0,
+    },
+    {
+      hash: '1a1ebe2a67031edc537328fa42c56a4d639f116a534379f0be810bc533a11eac',
+      sum: 0,
+    },
+    {
+      hash: '6ca43b228c867d686aa56ae6c3f63ee3c02b71592f62f2d02c2621dd24a0eff3',
+      sum: 71,
+    },
+    {
+      hash: '32c706e41b27427e4cf9d2ccddbbdb7eeb34df42cf3acb9f48fcdf2419199045',
+      sum: 16,
+    },
+    {
+      hash: '1adfa8633a067294c1036fb168c48de3626256afae07ab0c23bdf4fad5549f91',
+      sum: 9,
+    },
+    {
+      hash: 'e662316614f2be35c76b297330fc580c1af68da9a1df1e8982e5716841c39797',
+      sum: 7,
+    },
+    {
+      hash: '8428b6c06c97baf6afe872c270bb5ca0fb32b0522cfcd14710d56747d375f61d',
+      sum: 0,
+    },
+    {
+      hash: '414121b1c27aa76aab64fb0ff921199805218be8c707a1c54f891419974aa3c9',
+      sum: 11,
+    },
+    {
+      hash: '0421773648ad7d96b578b34b423057eeba404de4bce1a71cc3e296cd6faf20dc',
+      sum: 0,
+    },
+    {
+      hash: '4225466f46976e5877d0c8f7a77eafbf97a92841dedabae705816fa4c76e033f',
+      sum: 1,
+    },
+    {
+      hash: 'a916e0c15fd937ce993c5596e4b47ff94a81bbe24f36aaf6a73ffbd4d7181d53',
+      sum: 0,
+    },
+    {
+      hash: 'a8a1f5f39538793330a68ba28b8e5a602925616fd12d73ea8f292360ac545958',
+      sum: 30,
+    },
+    {
+      hash: 'a316cb7ca49d05c8ab536cfdbd66e5db89478bb2b41f6b02aa381dd13842e0d9',
+      sum: 4,
+    },
+    {
+      hash: '689005fb62324b1af98f03592e9044ea9ec941e9f915a273d3ca735b160fbdf2',
+      sum: 0,
+    },
+    {
+      hash: 'cef28a37d94bb9c14b4f612d9b5f0e84214d706cca8bbe237d053722e35ea2e6',
+      sum: 9,
+    },
+    {
+      hash: '45ff2ebb553f2b7088ebe316fe1f5646e01c000765286a8fd3c4a9d0429dee98',
+      sum: 11,
+    },
+  ],
+]
+
 export const tree: Array<Array<TreeNode>> = [
   [
     {

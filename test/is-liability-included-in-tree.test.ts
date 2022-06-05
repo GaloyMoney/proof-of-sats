@@ -1,5 +1,5 @@
 import { isLiabilityIncludedInTree, createProof } from '../src/create-proof'
-import { tree } from './helper'
+import { tree, treeFromTestAccounts } from './helper'
 
 describe('test the function isLiabilityIncludedInTree', () => {
   it('should return true for a given liability proof', () => {
@@ -23,5 +23,21 @@ describe('test the function isLiabilityIncludedInTree', () => {
     expect(isLiabilityIncludedInTree(liabilityProof, tree[0][0].hash)).toBe(
       true
     )
+  })
+})
+describe('test the function isLiabilityIncludedInTree using the tree generated from testAccounts', () => {
+  const rootHash = treeFromTestAccounts[0][0].hash
+  it('should return true for a valid accountId', () => {
+    const liabilityProof = createProof('01', treeFromTestAccounts)
+    expect(isLiabilityIncludedInTree(liabilityProof, rootHash)).toBe(true)
+  })
+  it('should return false for invalid accountId', () => {
+    const liabilityProof = createProof('123', treeFromTestAccounts)
+    expect(isLiabilityIncludedInTree(liabilityProof, rootHash)).toBe(false)
+  })
+  it('should return false for invalid root hash', () => {
+    expect(
+      isLiabilityIncludedInTree(createProof('01', treeFromTestAccounts), '123')
+    ).toBe(false)
   })
 })

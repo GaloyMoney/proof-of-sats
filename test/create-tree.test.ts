@@ -13,5 +13,6 @@ describe('test the createLiabilitesTree function', () => {
     expect(tree[2].length).toBe(4)
     expect(tree[0][0].sum).toBe(expectedSum) //total sum of all the liabilities
     expect(tree[tree.length - 1].length).toBe(16) // total number of leaves should be 16
+    console.log(tree)
   })
 })
