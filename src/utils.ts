@@ -26,6 +26,8 @@ export const shuffle = <T>(arr: T[]): T[] => {
   return result
 }
 
+
+// Is this how nodes are combined in the bitfinex approach?
 // Combine the two nodes to generate their parent node
 export const nodeCombiner = (
   leftChild: TreeNode,

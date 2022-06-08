@@ -4,14 +4,18 @@ type Liability = {
 }
 
 // What should be the correct nomenclature for the MerklePath ?
+
+// Switch type of MerklePath to be an array
 type MerklePath = {
   node: TreeNode
   index: number
-}
+}[]
 
+//
 type PartialLiabilityProof = {
-  merklePath: MerklePath[]
-  balance: number
+  merklePath: MerklePath
+  liability: Liability
+  idx: number
 }
 
 type LiabilityProof = {

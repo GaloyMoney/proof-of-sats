@@ -1,6 +1,7 @@
 import { createHash } from 'crypto'
 import { nodeCombiner } from './utils'
 
+
 /**
  * returns the calculated hash of the given data
  * @param accountId
@@ -8,6 +9,7 @@ import { nodeCombiner } from './utils'
  * @param idx
  * @returns {string}
  */
+// This shouldn't be exported
 export const generateLeafForAccount = (
   accountId: string,
   leaf: TreeNode,
@@ -31,6 +33,7 @@ export const generatePartialProof = (
   let i = tree.length - 1
   const path: MerklePath[] = []
   const balance = tree[i][idx].sum
+  // The leaf should not be a part of the path, as it will be generated from other data in the PartialLiabilityProof
   path.push({ node: tree[i][idx], index: idx })
   while (i > 0) {
     if (idx % 2 === 0) {
@@ -81,11 +84,16 @@ export const isLiabilityIncludedInTree = (
   }
   let isValid = true
   liabilityProof.partialLiabilityProofs.forEach((partialProof) => {
+    // You need to check to make sure that each partial proof starts off with a node that has the correct account id
     if (!isPartialProofValid(partialProof.merklePath, rootHash)) {
       isValid = false
     }
   })
   return isValid
+}
+
+export const provenLiabilityBalance = (liabilityProof: LiabilityProof, rootHash: string) : number => {
+  // using similar code from isLiabilityIncludedInTree return the total amount of money that is proven to be a part of the balance
 }
 
 
@@ -95,11 +103,11 @@ export const isLiabilityIncludedInTree = (
  * @param rootHash 
  * @returns {boolean}
  */
+// should take in a partial proof as an argument
 const isPartialProofValid = (
-  merklePath: MerklePath[],
-  rootHash: string
+  partialProof: PartialLiabilityProof
 ): boolean => {
-  let currentNode = merklePath[0].node
+  let currentNode = merklePath[0].node // You need to create the first node in the path using create leaf from partialProof.liability and partialProof.index
   let rightNode: TreeNode
   let leftNode: TreeNode
   for (let i = 1; i < merklePath.length; i++) {
