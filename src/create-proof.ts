@@ -1,6 +1,6 @@
 import { createHash } from 'crypto'
 import { nodeCombiner } from './utils'
-
+import { getLeaf } from './create-tree'
 /**
  * returns the calculated hash of the given data
  * @param accountId
@@ -26,12 +26,13 @@ export const generateLeafForAccount = (
  */
 export const generatePartialProof = (
   idx: number,
-  tree: Array<Array<TreeNode>>
+  tree: Array<Array<TreeNode>>,
+  accountId: string
 ): PartialLiabilityProof => {
   let i = tree.length - 1
-  const path: MerklePath[] = []
+  const leafIndex = idx
   const balance = tree[i][idx].sum
-  path.push({ node: tree[i][idx], index: idx })
+  const path: MerklePath = []
   while (i > 0) {
     if (idx % 2 === 0) {
       path.push({ node: tree[i][idx + 1], index: idx + 1 })
@@ -43,7 +44,11 @@ export const generatePartialProof = (
   }
   return {
     merklePath: path,
-    balance: balance,
+    liability: {
+      accountId: accountId,
+      balance: balance,
+    },
+    idx: leafIndex,
   }
 }
 
@@ -53,18 +58,22 @@ export const generatePartialProof = (
  * @param tree
  * @returns {LiabilityProof}
  */
+
 export const createProof = (
   accountId: string,
   tree: Array<Array<TreeNode>>
-): LiabilityProof => {
+) => {
   const leaves = tree[tree.length - 1]
   const leafIndex: Array<number> = []
   leaves.forEach((leaf, idx) => {
-    if (leaf.hash === generateLeafForAccount(accountId, leaf, idx))
+    if (leaf.hash === generateLeafForAccount(accountId, leaf, idx)) {
       leafIndex.push(idx)
+    }
   })
-  const partialLiabilityProofs: PartialLiabilityProof[] = leafIndex.map((idx) =>
-    generatePartialProof(idx, tree)
+  const partialLiabilityProofs: PartialLiabilityProof[] = leafIndex.map(
+    (idx) => {
+      return generatePartialProof(idx, tree, accountId)
+    }
   )
   return {
     accountId: accountId,
@@ -81,28 +90,31 @@ export const isLiabilityIncludedInTree = (
   }
   let isValid = true
   liabilityProof.partialLiabilityProofs.forEach((partialProof) => {
-    if (!isPartialProofValid(partialProof.merklePath, rootHash)) {
+    if (!isPartialProofValid(partialProof, rootHash)) {
       isValid = false
     }
   })
   return isValid
 }
 
-
 /**
  *  Accepts a rootHash and a list of merklePaths and returns if the proof is valid
- * @param merklePath 
- * @param rootHash 
+ * @param merklePath
+ * @param rootHash
  * @returns {boolean}
  */
 const isPartialProofValid = (
-  merklePath: MerklePath[],
+  partialLiabilityProof: PartialLiabilityProof,
   rootHash: string
 ): boolean => {
-  let currentNode = merklePath[0].node
+  const merklePath = partialLiabilityProof.merklePath
+  let currentNode = getLeaf(
+    partialLiabilityProof.liability,
+    partialLiabilityProof.idx
+  )
   let rightNode: TreeNode
   let leftNode: TreeNode
-  for (let i = 1; i < merklePath.length; i++) {
+  for (let i = 0; i < merklePath.length; i++) {
     if (merklePath[i].index % 2 == 1) {
       rightNode = merklePath[i].node
       leftNode = currentNode
