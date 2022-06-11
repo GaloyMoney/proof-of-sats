@@ -8,7 +8,7 @@ import { getLeaf } from './create-tree'
  * @param idx
  * @returns {string}
  */
-export const generateLeafForAccount = (
+const generateLeafForAccount = (
   accountId: string,
   leaf: TreeNode,
   idx: number
@@ -22,6 +22,7 @@ export const generateLeafForAccount = (
  *
  * @param idx
  * @param tree
+ * @param accountId
  * @returns {PartialLiabilityProof}
  */
 export const generatePartialProof = (
@@ -80,11 +81,17 @@ export const createProof = (
     partialLiabilityProofs: partialLiabilityProofs,
   }
 }
+/**
+ * 
+ * @param liabilityProof 
+ * @param rootHash 
+ * @returns {boolean}
+ */
 
-export const isLiabilityIncludedInTree = (
+export const isLiabilityIncludedInTree   = (
   liabilityProof: LiabilityProof,
   rootHash: string
-) => {
+):boolean  => {
   if (liabilityProof.partialLiabilityProofs.length == 0) {
     return false
   }
@@ -98,8 +105,8 @@ export const isLiabilityIncludedInTree = (
 }
 
 /**
- *  Accepts a rootHash and a list of merklePaths and returns if the proof is valid
- * @param merklePath
+ *  Accepts a rootHash and a PartialLiabilityProof and returns true if the proof is valid
+ * @param partialProof
  * @param rootHash
  * @returns {boolean}
  */
