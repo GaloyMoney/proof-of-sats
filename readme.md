@@ -58,19 +58,32 @@ TreeNode = {
 
 ### createProof
 
-Generate a proof of liability for a given accountId.
+Generate a liability proof for a given accountId.
+```js
+const createProof = (
+  accountId: string,
+  tree: Array<Array<TreeNode>>
+)
+```
 A liability proof contains a list of partial liability proof for each user.
 
 ```js
-partialLiabilityProof = {
-    merklePath : MerklePath[],
-    balance: number
+type PartialLiabilityProof = {
+  merklePath: MerklePath
+  idx: number 
+  liability: Liability 
 }
 ```
 
 ### isLiabilityIncludedInTree
 
 The function accepts a liability proof and a root hash of the tree and returns a boolean value indicating that whether a given account has been included in the tree.
+```js
+const isLiabilityIncludedInTree   = (
+  liabilityProof: LiabilityProof,
+  rootHash: string
+):boolean
+```
 
 ## Test
 
