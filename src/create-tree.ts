@@ -35,7 +35,7 @@ export const createLiabilities = (accounts: Liability[]): Liability[] => {
 
 /**
  * generates a tree from the list of accounts containing
- * the acconutId and balance
+ * the accountId and balance
  * @param accounts
  * @returns {Array<Array<TreeNode>>}
  */

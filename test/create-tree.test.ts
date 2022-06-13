@@ -1,7 +1,7 @@
 import { createLiabilitiesTree } from '../src/create-tree'
 import { testAccountsForTree } from './helper'
 
-describe('test the createLiabilitesTree function', () => {
+describe('test the createLiabilitiesTree function', () => {
   it('should return a tree', () => {
     let expectedSum = 0
     testAccountsForTree.forEach((acc) => (expectedSum += acc.balance))

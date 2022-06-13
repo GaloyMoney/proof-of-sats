@@ -7,11 +7,12 @@ type Liability = {
 type MerklePath = {
   node: TreeNode
   index: number
-}
+}[]
 
 type PartialLiabilityProof = {
-  merklePath: MerklePath[]
-  balance: number
+  merklePath: MerklePath
+  idx: number // This would help us to create a leaf while trying to create a proof
+  liability: Liability // This would help us to create a leaf while trying to create a proof
 }
 
 type LiabilityProof = {
