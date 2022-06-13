@@ -1,6 +1,6 @@
-import { createHash } from 'crypto'
-import { nodeCombiner } from './utils'
-import { getLeaf } from './create-tree'
+import { createHash } from "crypto"
+import { nodeCombiner } from "./utils"
+import { getLeaf } from "./create-tree"
 /**
  * returns the calculated hash of the given data
  * @param accountId
@@ -11,10 +11,10 @@ import { getLeaf } from './create-tree'
 const generateLeafForAccount = (
   accountId: string,
   leaf: TreeNode,
-  idx: number
+  idx: number,
 ): string => {
   const data = `${accountId}${leaf.sum}${idx}`
-  return createHash('sha256').update(data).digest('hex')
+  return createHash("sha256").update(data).digest("hex")
 }
 
 /**
@@ -28,7 +28,7 @@ const generateLeafForAccount = (
 export const generatePartialProof = (
   idx: number,
   tree: Array<Array<TreeNode>>,
-  accountId: string
+  accountId: string,
 ): PartialLiabilityProof => {
   let i = tree.length - 1
   const leafIndex = idx
@@ -60,10 +60,7 @@ export const generatePartialProof = (
  * @returns {LiabilityProof}
  */
 
-export const createProof = (
-  accountId: string,
-  tree: Array<Array<TreeNode>>
-) => {
+export const createProof = (accountId: string, tree: Array<Array<TreeNode>>) => {
   const leaves = tree[tree.length - 1]
   const leafIndex: Array<number> = []
   leaves.forEach((leaf, idx) => {
@@ -71,27 +68,25 @@ export const createProof = (
       leafIndex.push(idx)
     }
   })
-  const partialLiabilityProofs: PartialLiabilityProof[] = leafIndex.map(
-    (idx) => {
-      return generatePartialProof(idx, tree, accountId)
-    }
-  )
+  const partialLiabilityProofs: PartialLiabilityProof[] = leafIndex.map((idx) => {
+    return generatePartialProof(idx, tree, accountId)
+  })
   return {
     accountId: accountId,
     partialLiabilityProofs: partialLiabilityProofs,
   }
 }
 /**
- * 
- * @param liabilityProof 
- * @param rootHash 
+ *
+ * @param liabilityProof
+ * @param rootHash
  * @returns {boolean}
  */
 
-export const isLiabilityIncludedInTree   = (
+export const isLiabilityIncludedInTree = (
   liabilityProof: LiabilityProof,
-  rootHash: string
-):boolean  => {
+  rootHash: string,
+): boolean => {
   if (liabilityProof.partialLiabilityProofs.length == 0) {
     return false
   }
@@ -112,13 +107,10 @@ export const isLiabilityIncludedInTree   = (
  */
 const isPartialProofValid = (
   partialLiabilityProof: PartialLiabilityProof,
-  rootHash: string
+  rootHash: string,
 ): boolean => {
   const merklePath = partialLiabilityProof.merklePath
-  let currentNode = getLeaf(
-    partialLiabilityProof.liability,
-    partialLiabilityProof.idx
-  )
+  let currentNode = getLeaf(partialLiabilityProof.liability, partialLiabilityProof.idx)
   let rightNode: TreeNode
   let leftNode: TreeNode
   for (let i = 0; i < merklePath.length; i++) {

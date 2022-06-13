@@ -1,5 +1,5 @@
-import { createHash } from 'crypto'
-import { randomInt, shuffle, nodeCombiner } from './utils'
+import { createHash } from "crypto"
+import { randomInt, shuffle, nodeCombiner } from "./utils"
 
 // TODO: Still have to implement the hashing with nonce and blockheight
 
@@ -12,7 +12,7 @@ import { randomInt, shuffle, nodeCombiner } from './utils'
 export const getLeaf = (liability: Liability, idx: number): TreeNode => {
   const data = `${liability.accountId}${liability.balance}${idx}`
   return {
-    hash: createHash('sha256').update(data).digest('hex'),
+    hash: createHash("sha256").update(data).digest("hex"),
     sum: liability.balance,
   }
 }
@@ -84,7 +84,7 @@ const getStretchedLiabilities = (liabilities: Liability[]): Liability[] => {
         stretchedLiabilitiesLength++
         const val1: number = randomInt(
           0,
-          Math.floor(parseInt(liability.balance.toString()))
+          Math.floor(parseInt(liability.balance.toString())),
         )
         const val2: number = liability.balance - val1
         stretchedLiabilities.push({
