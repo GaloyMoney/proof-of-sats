@@ -44,7 +44,7 @@ export const generatePartialProof = (
   }
   return {
     merklePath: path,
-    balance: balance,
+    balance,
     idx: leafIndex,
   }
 }
@@ -71,9 +71,9 @@ export const createProof = (accountId: string, tree: Array<Array<TreeNode>>) => 
   let totalBalance = 0
   partialLiabilityProofs.forEach((proof) => (totalBalance += proof.balance))
   return {
-    accountId: accountId,
-    partialLiabilityProofs: partialLiabilityProofs,
-    totalBalance: totalBalance,
+    accountId,
+    partialLiabilityProofs,
+    totalBalance,
   }
 }
 /**
@@ -109,7 +109,7 @@ export const isLiabilityIncludedInTree = (
   // What should be the return type of this function ?
   return {
     isProofValid: isValid,
-    provenBalance: provenBalance,
+    provenBalance,
   }
 }
 
@@ -126,7 +126,7 @@ const isPartialProofValid = (
 ): boolean => {
   const merklePath = partialLiabilityProof.merklePath
   const liability: Liability = {
-    accountId: accountId,
+    accountId,
     balance: partialLiabilityProof.balance,
   }
 

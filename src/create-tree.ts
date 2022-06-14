@@ -25,8 +25,8 @@ export const getLeaf = (liability: Liability, idx: number): TreeNode => {
 
 export const createLiabilities = (accounts: Liability[]): Liability[] => {
   let liabilities = accounts.map(({ accountId, balance }) => ({
-    accountId: accountId,
-    balance: balance,
+    accountId,
+    balance,
   }))
   liabilities = shuffle(liabilities)
   const stretchedliabilities = getStretchedLiabilities(liabilities)
