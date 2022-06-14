@@ -17,7 +17,7 @@ yarn add proof-of-liabilities
 ## To generate the liabilities tree
 
 ```js
-import { createLiabilitiesTree } from 'proof-of-liabilities/create-tree'
+import { createLiabilitiesTree } from "proof-of-liabilities/create-tree"
 // userInfo = [{accountId, balance}....]
 const tree = createLiabilitiesTree(userInfo)
 ```
@@ -25,7 +25,7 @@ const tree = createLiabilitiesTree(userInfo)
 ## To generate a proof
 
 ```js
-import { createProof } from 'proof-of-liabilities/create-proof'
+import { createProof } from "proof-of-liabilities/create-proof"
 // tree: Array<Array<TreeNode>>
 const liabilityProof = createProof(accountId, tree)
 ```
@@ -33,7 +33,7 @@ const liabilityProof = createProof(accountId, tree)
 ## To Validate a proof
 
 ```js
-import { isLiabilityIncludedInTree } from 'proof-of-liabilities/validate-proof'
+import { isLiabilityIncludedInTree } from "proof-of-liabilities/validate-proof"
 const isValid: boolean = isLiabilityIncludedInTree(liabilityProof, rootHash)
 ```
 
