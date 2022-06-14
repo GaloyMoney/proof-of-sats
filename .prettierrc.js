@@ -1,7 +1,15 @@
 module.exports = {
+  // Custom:
   semi: false,
-  singleQuote: true,
-  trailingComma: 'es5',
-  arrowParens: 'always',
-  printWidth: 80,
+  trailingComma: "all",
+  printWidth: 90,
+  quoteProps: "consistent",
+  // Defaults:
+  singleQuote: false,
+  tabWidth: 2,
+  useTabs: false,
+  bracketSpacing: true,
+  arrowParens: "always",
+  proseWrap: "preserve",
+  endOfLine: "lf",
 }
