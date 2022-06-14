@@ -7,7 +7,7 @@ describe('Test the createProof function', () => {
     const expectedBalance = 121
     let calculatedBalance = 0
     liabilityProof.partialLiabilityProofs.forEach((proof) => {
-      calculatedBalance += proof.liability.balance
+      calculatedBalance += proof.balance
     })
     expect(liabilityProof).toBeInstanceOf(Object)
     expect(liabilityProof.accountId).toBe('04')
@@ -20,7 +20,7 @@ describe('Test the createProof function', () => {
     const expectedBalance = 0
     let calculatedBalance = 0
     liabilityProof.partialLiabilityProofs.forEach((proof) => {
-      calculatedBalance += proof.liability.balance
+      calculatedBalance += proof.balance
     })
     expect(liabilityProof).toBeInstanceOf(Object)
     expect(liabilityProof.accountId).toBe('02')
@@ -40,7 +40,7 @@ describe('test the create proof function using the tree generated using createLi
     const expectedBalance = 23
     let calculatedBalance = 0
     liabilityProof.partialLiabilityProofs.forEach((proof) => {
-      calculatedBalance += proof.liability.balance
+      calculatedBalance += proof.balance
     })
     expect(liabilityProof).toBeInstanceOf(Object)
     expect(liabilityProof.accountId).toBe('01')
