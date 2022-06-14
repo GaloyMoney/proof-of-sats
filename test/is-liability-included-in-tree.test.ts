@@ -47,3 +47,89 @@ describe("test the function isLiabilityIncludedInTree using the tree generated f
     ).toBe(false)
   })
 })
+
+describe("test the function isLiabilityIncludedInTree using the tree generated from testAccounts", () => {
+  const rootHash = treeFromTestAccounts[0][0].hash
+  it("should return false when partialLiabilityProofs for wrong accounts are being passed", () => {
+    const liabilityProofForDifferentAccountId: LiabilityProof = {
+      accountId: "01",
+      partialLiabilityProofs: [
+        {
+          merklePath: [
+            {
+              node: {
+                hash: "6ca43b228c867d686aa56ae6c3f63ee3c02b71592f62f2d02c2621dd24a0eff3",
+                sum: 71,
+              },
+              index: 2,
+            },
+            {
+              node: {
+                hash: "a9819fece07ecaa1044acaf20dac98bb66dc20eec1dd520474bbf532c0791ea7",
+                sum: 0,
+              },
+              index: 0,
+            },
+            {
+              node: {
+                hash: "ff75e78131e351a66791612c306e842dd95ee2a529ad7aa975e48c78259de84c",
+                sum: 27,
+              },
+              index: 1,
+            },
+            {
+              node: {
+                hash: "605b5d486d6421900e6f890ea6478c75fc9351f372ffd07d8a9a7b76ca1b6cbf",
+                sum: 55,
+              },
+              index: 1,
+            },
+          ],
+          balance: 16,
+          idx: 3,
+        },
+        {
+          merklePath: [
+            {
+              node: {
+                hash: "689005fb62324b1af98f03592e9044ea9ec941e9f915a273d3ca735b160fbdf2",
+                sum: 0,
+              },
+              index: 13,
+            },
+            {
+              node: {
+                hash: "3ddb223999813c67f374e87e820599265c390bf9526537ad440595270d6abfc6",
+                sum: 20,
+              },
+              index: 7,
+            },
+            {
+              node: {
+                hash: "92a0d0b36c15b0ccc5999522e45222bac16975d72f7da2031e91583f18cf2725",
+                sum: 31,
+              },
+              index: 2,
+            },
+            {
+              node: {
+                hash: "2f3f24746c39ed194854a1bb3e70c72ce5e8edb6ebda2a49cd0f2b81f63c758f",
+                sum: 114,
+              },
+              index: 0,
+            },
+          ],
+          balance: 4,
+          idx: 12,
+        },
+      ],
+      totalBalance: 23,
+    }
+    let liabilityProof = createProof("03", treeFromTestAccounts)
+    liabilityProof.partialLiabilityProofs =
+      liabilityProofForDifferentAccountId.partialLiabilityProofs
+    const verification = isLiabilityIncludedInTree(liabilityProof, rootHash)
+    expect(verification.isProofValid).toBe(false)
+    expect(verification.provenBalance).not.toBe(liabilityProof.totalBalance)
+  })
+})
