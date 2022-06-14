@@ -28,7 +28,6 @@ const generateLeafForAccount = (
 export const generatePartialProof = (
   idx: number,
   tree: Array<Array<TreeNode>>,
-  accountId: string,
 ): PartialLiabilityProof => {
   let i = tree.length - 1
   const leafIndex = idx
@@ -45,10 +44,7 @@ export const generatePartialProof = (
   }
   return {
     merklePath: path,
-    liability: {
-      accountId: accountId,
-      balance: balance,
-    },
+    balance: balance,
     idx: leafIndex,
   }
 }
@@ -69,11 +65,15 @@ export const createProof = (accountId: string, tree: Array<Array<TreeNode>>) => 
     }
   })
   const partialLiabilityProofs: PartialLiabilityProof[] = leafIndex.map((idx) => {
-    return generatePartialProof(idx, tree, accountId)
+    return generatePartialProof(idx, tree)
   })
+  // find sum in partialLiabilityProof using reduce.
+  let totalBalance = 0
+  partialLiabilityProofs.forEach((proof) => (totalBalance += proof.balance))
   return {
     accountId: accountId,
     partialLiabilityProofs: partialLiabilityProofs,
+    totalBalance: totalBalance,
   }
 }
 /**
@@ -86,17 +86,31 @@ export const createProof = (accountId: string, tree: Array<Array<TreeNode>>) => 
 export const isLiabilityIncludedInTree = (
   liabilityProof: LiabilityProof,
   rootHash: string,
-): boolean => {
+): {
+  isProofValid: boolean
+  provenBalance: number
+} => {
   if (liabilityProof.partialLiabilityProofs.length == 0) {
-    return false
+    return {
+      isProofValid: false,
+      provenBalance: 0,
+    }
   }
   let isValid = true
+  let provenBalance = 0
   liabilityProof.partialLiabilityProofs.forEach((partialProof) => {
-    if (!isPartialProofValid(partialProof, rootHash)) {
+    if (!isPartialProofValid(partialProof, rootHash, liabilityProof.accountId)) {
       isValid = false
+    } else {
+      provenBalance += partialProof.balance
     }
   })
-  return isValid
+
+  // What should be the return type of this function ?
+  return {
+    isProofValid: isValid,
+    provenBalance: provenBalance,
+  }
 }
 
 /**
@@ -108,9 +122,15 @@ export const isLiabilityIncludedInTree = (
 const isPartialProofValid = (
   partialLiabilityProof: PartialLiabilityProof,
   rootHash: string,
+  accountId: string,
 ): boolean => {
   const merklePath = partialLiabilityProof.merklePath
-  let currentNode = getLeaf(partialLiabilityProof.liability, partialLiabilityProof.idx)
+  const liability: Liability = {
+    accountId: accountId,
+    balance: partialLiabilityProof.balance,
+  }
+
+  let currentNode = getLeaf(liability, partialLiabilityProof.idx)
   let rightNode: TreeNode
   let leftNode: TreeNode
   for (let i = 0; i < merklePath.length; i++) {
