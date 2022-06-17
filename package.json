@@ -2,8 +2,8 @@
   "name": "proof-of-liabilities",
   "version": "1.0.0",
   "description": "library to implement proof-of-liabilities.",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
   "scripts": {
     "test": "jest --no-cache --runInBand",
     "eslint-check": "eslint \"{src,test}/**/*.ts\"",
