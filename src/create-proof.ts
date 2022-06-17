@@ -13,8 +13,12 @@ const generateLeafForAccount = (
   leaf: TreeNode,
   idx: number,
 ): string => {
-  const data = `${accountId}${leaf.sum}${idx}`
-  return createHash("sha256").update(data).digest("hex")
+  // const data = `${accountId}${leaf.sum}${idx}`
+  const hash = createHash("sha256")
+  hash.update(accountId)
+  hash.update(leaf.sum.toString())
+  hash.update(idx.toString())
+  return hash.digest("hex")
 }
 
 /**

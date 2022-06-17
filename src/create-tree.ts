@@ -10,9 +10,14 @@ import { randomInt, shuffle, nodeCombiner } from "./utils"
  * @returns {TreeNode}
  */
 export const getLeaf = (liability: Liability, idx: number): TreeNode => {
-  const data = `${liability.accountId}${liability.balance}${idx}`
+  // const data = `${liability.accountId}${liability.balance}${idx}`
+  const hash = createHash("sha256")
+  hash.update(liability.accountId)
+  hash.update(liability.balance.toString())
+  hash.update(idx.toString())
+
   return {
-    hash: createHash("sha256").update(data).digest("hex"),
+    hash: hash.digest("hex"),
     sum: liability.balance,
   }
 }
