@@ -1,19 +1,20 @@
 import { createProof } from "../src/create-proof"
-import { tree, treeFromTestAccounts,testAccountsForTree } from "./helper"
+import {testAccountsForTree } from "./helper"
 import {createLiabilitiesTree} from "../src/create-tree"
 
 describe("Test the createProof function", () => {
+  const tree = createLiabilitiesTree(testAccountsForTree)
   it("should return a LiabilityProof object", () => {
-    const liabilityProof = createProof("04", tree)
-    const expectedBalance = 121
+    const liabilityProof = createProof("01", tree)
     let calculatedBalance = 0
     liabilityProof.partialLiabilityProofs.forEach((proof) => {
       calculatedBalance += proof.balance
     })
+    const expectedBalance = liabilityProof.totalBalance
     expect(liabilityProof).toBeInstanceOf(Object)
-    expect(liabilityProof.accountId).toBe("04")
+    expect(liabilityProof.noncedAccountId).toBe("01" + tree.nonceMap.get("01"))
     expect(calculatedBalance).toBe(expectedBalance)
-    expect(liabilityProof.partialLiabilityProofs.length).toBe(2)
+    expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
   })
   // test when an account has a balance of 0
   it("should return a LiabilityProof object", () => {
@@ -24,7 +25,7 @@ describe("Test the createProof function", () => {
       calculatedBalance += proof.balance
     })
     expect(liabilityProof).toBeInstanceOf(Object)
-    expect(liabilityProof.accountId).toBe("02")
+    expect(liabilityProof.noncedAccountId).toBe("02"+ tree.nonceMap.get("02"))
     expect(calculatedBalance).toBe(expectedBalance)
     expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
   })
@@ -32,35 +33,5 @@ describe("Test the createProof function", () => {
     const liabilityProof = createProof("123", tree)
     expect(liabilityProof).toBeInstanceOf(Object)
     expect(liabilityProof.partialLiabilityProofs.length).toBe(0)
-  })
-})
-
-describe("test the create proof function using the tree generated using createLiabilitiesFunction", () => {
-  it("should return a LiabilityProof object", () => {
-    const liabilityProof = createProof("01", treeFromTestAccounts)
-    const expectedBalance = 23
-    let calculatedBalance = 0
-    liabilityProof.partialLiabilityProofs.forEach((proof) => {
-      calculatedBalance += proof.balance
-    })
-    expect(liabilityProof).toBeInstanceOf(Object)
-    expect(liabilityProof.accountId).toBe("01")
-    expect(calculatedBalance).toBe(expectedBalance)
-  })
-})
-
-describe("test the function by creating a tree from the testAccounts and then using it to get the liability proof.",()=>{
-  it("should return a LiabilityProof object", () => {
-    const tree = createLiabilitiesTree(testAccountsForTree)
-    const liabilityProof = createProof("01", tree)
-    const expectedBalance = 23
-    let calculatedBalance = 0
-    liabilityProof.partialLiabilityProofs.forEach((proof) => {
-      calculatedBalance += proof.balance
-    }
-    )
-    expect(liabilityProof).toBeInstanceOf(Object)
-    expect(liabilityProof.accountId).toBe("01")
-    expect(calculatedBalance).toBe(expectedBalance)
   })
 })
