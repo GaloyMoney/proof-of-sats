@@ -1,31 +1,12 @@
-import { createHash } from "crypto"
-import { randomInt, shuffle, nodeCombiner, randomString } from "./utils"
+import { shuffle, nodeCombiner, randomString, getLeaf } from "./utils"
+import { getStretchedLiabilities } from "./get-stretched-liabilities"
 
 // TODO: Still have to implement the hashing with nonce and blockheight
 
 /**
- * create a leaf node from a liability by using sha256 algorithm.
- * @param liability
- * @param idx
- * @returns {TreeNode}
- */
-export const getLeaf = (liability: Liability, idx: number): TreeNode => {
-  // const data = `${liability.accountId}${liability.balance}${idx}`
-  const hash = createHash("sha256")
-  hash.update(liability.accountId)
-  hash.update(liability.balance.toString())
-  hash.update(idx.toString())
-
-  return {
-    hash: hash.digest("hex"),
-    sum: liability.balance,
-  }
-}
-
-/**
  * accept a list of accounts and return a shuffled and stretched list of liabilities
  * @param accounts
- * @returns {Liability[]}
+ * @returns {Liability[]} a shuffled and stretched list of liabilities
  */
 
 export const createLiabilities = (accounts: Liability[]): Liability[] => {
@@ -42,16 +23,17 @@ export const createLiabilities = (accounts: Liability[]): Liability[] => {
  * generates a tree from the list of accounts containing
  * the accountId and balance
  * @param accounts
- * @returns {Tree}
+ * @returns {LiabilityTree} a LiabilityTree object containing merkleTree and nonceMap
  */
-export const createLiabilitiesTree = (accounts: Liability[]): Tree => {
+export const createLiabilitiesTree = (accounts: Liability[]): LiabilityTree => {
   const nonceMap = new Map<string, string>()
   accounts.forEach((acc) => {
     nonceMap.set(acc.accountId, randomString(32))
-    acc.accountId = acc.accountId + nonceMap.get(acc.accountId)
   })
   const liabilities = createLiabilities(accounts)
-  const leaves = liabilities.map((liability, idx) => getLeaf(liability, idx))
+  const leaves = liabilities.map((liability, idx) =>
+    getLeaf(liability, idx, nonceMap.get(liability.accountId)!),
+  )
   const merkleTree = generateTree(leaves)
   return {
     merkleTree: merkleTree.reverse(),
@@ -62,7 +44,7 @@ export const createLiabilitiesTree = (accounts: Liability[]): Tree => {
 /**
  * Generate a merkle tree from the leaves
  * @param leaves
- * @returns {Array<Array<TreeNode>>}
+ * @returns {Array<Array<TreeNode>>} a merkleTree
  */
 export const generateTree = (leaves: TreeNode[]): Array<Array<TreeNode>> => {
   const tree = [leaves]
@@ -81,39 +63,4 @@ export const generateTree = (leaves: TreeNode[]): Array<Array<TreeNode>> => {
     rowIndex++
   }
   return tree
-}
-
-// IMPORTANT NOTE: At present this function assumes that the liabilities will have an integer balance.
-const getStretchedLiabilities = (liabilities: Liability[]): Liability[] => {
-  let finalLiabilities: Liability[] = liabilities
-  const currSize = liabilities.length * 2
-  const treeHeight = Math.ceil(Math.log2(currSize))
-  const totalLeaves = Math.pow(2, treeHeight)
-  while (finalLiabilities.length < totalLeaves) {
-    const stretchedLiabilities: Liability[] = []
-    let stretchedLiabilitiesLength = finalLiabilities.length
-    finalLiabilities.forEach((liability) => {
-      if (liability.balance >= 0 && stretchedLiabilitiesLength < totalLeaves) {
-        stretchedLiabilitiesLength++
-        const val1: number = randomInt(
-          0,
-          Math.floor(parseInt(liability.balance.toString())),
-        )
-        const val2: number = liability.balance - val1
-        stretchedLiabilities.push({
-          accountId: liability.accountId,
-          balance: val1,
-        })
-        stretchedLiabilities.push({
-          accountId: liability.accountId,
-          balance: val2,
-        })
-      } else {
-        stretchedLiabilities.push(liability)
-      }
-    })
-    finalLiabilities = stretchedLiabilities
-  }
-
-  return finalLiabilities
 }

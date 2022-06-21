@@ -16,7 +16,8 @@ type PartialLiabilityProof = {
 }
 
 type LiabilityProof = {
-  noncedAccountId: string
+  accountId: string
+  nonce: string
   partialLiabilityProofs: PartialLiabilityProof[]
   totalBalance: number
 }
@@ -26,7 +27,7 @@ type TreeNode = {
   sum: number
 }
 
-type Tree = {
+type LiabilityTree = {
   merkleTree: Array<Array<TreeNode>>
   nonceMap: Map<string, string>
 }
