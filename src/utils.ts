@@ -38,3 +38,46 @@ export const nodeCombiner = (leftChild: TreeNode, rightChild: TreeNode): TreeNod
 export const randomString = (length = 32): string => {
   return randomBytes(length).toString("hex").slice(0, length)
 }
+
+/**
+ * create a leaf node from a liability by using sha256 algorithm.
+ * @param liability
+ * @param idx
+ * @returns {TreeNode} a leaf node
+ */
+export const getLeaf = (liability: Liability, idx: number, nonce: string): TreeNode => {
+  // const data = `${liability.accountId}${liability.balance}${idx}`
+  const hash = createHash("sha256")
+  hash.update(liability.accountId)
+  hash.update(nonce)
+  hash.update(liability.balance.toString())
+  hash.update(idx.toString())
+
+  return {
+    hash: hash.digest("hex"),
+    sum: liability.balance,
+  }
+}
+
+/**
+ * returns the calculated hash of the given data
+ * @param accountId
+ * @param nonce
+ * @param leaf node
+ * @param idx
+ * @returns {string} a SHA256 hash of the given data
+ */
+
+export const generateHashForAccount = (
+  accountId: string,
+  nonce: string,
+  leaf: TreeNode,
+  idx: number,
+): string => {
+  const hash = createHash("sha256")
+  hash.update(accountId)
+  hash.update(nonce)
+  hash.update(leaf.sum.toString())
+  hash.update(idx.toString())
+  return hash.digest("hex")
+}
