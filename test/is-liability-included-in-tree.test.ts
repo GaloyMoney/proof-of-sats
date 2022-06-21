@@ -1,4 +1,4 @@
-import { createLiabilitiesTree } from "src"
+import { createLiabilitiesTree } from "../src/create-tree"
 import { isLiabilityIncludedInTree, createProof } from "../src/create-proof"
 import { testAccountsForTree } from "./helper"
 
