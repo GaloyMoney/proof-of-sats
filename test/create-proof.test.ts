@@ -1,6 +1,6 @@
 import { createProof } from "../src/create-proof"
-import {testAccountsForTree } from "./helper"
-import {createLiabilitiesTree} from "../src/create-tree"
+import { testAccountsForTree } from "./helper"
+import { createLiabilitiesTree } from "../src/create-tree"
 
 describe("Test the createProof function", () => {
   const tree = createLiabilitiesTree(testAccountsForTree)
@@ -25,7 +25,7 @@ describe("Test the createProof function", () => {
       calculatedBalance += proof.balance
     })
     expect(liabilityProof).toBeInstanceOf(Object)
-    expect(liabilityProof.noncedAccountId).toBe("02"+ tree.nonceMap.get("02"))
+    expect(liabilityProof.noncedAccountId).toBe("02" + tree.nonceMap.get("02"))
     expect(calculatedBalance).toBe(expectedBalance)
     expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
   })
