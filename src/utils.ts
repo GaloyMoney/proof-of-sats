@@ -1,4 +1,4 @@
-import { createHash } from "crypto"
+import { createHash, randomBytes } from "crypto"
 
 // to generate a random integer between min (inclusive) and max (inclusive).
 export const randomInt = (min = 0, max: number): number => {
@@ -33,4 +33,8 @@ export const nodeCombiner = (leftChild: TreeNode, rightChild: TreeNode): TreeNod
     hash: createHash("sha256").update(data).digest("hex"),
     sum: leftChild.sum + rightChild.sum,
   }
+}
+
+export const randomString = (length = 32): string => {
+  return randomBytes(length).toString("hex").slice(0, length)
 }
