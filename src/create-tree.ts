@@ -1,5 +1,5 @@
 import { createHash } from "crypto"
-import { randomInt, shuffle, nodeCombiner } from "./utils"
+import { randomInt, shuffle, nodeCombiner, randomString } from "./utils"
 
 // TODO: Still have to implement the hashing with nonce and blockheight
 
@@ -42,13 +42,21 @@ export const createLiabilities = (accounts: Liability[]): Liability[] => {
  * generates a tree from the list of accounts containing
  * the accountId and balance
  * @param accounts
- * @returns {Array<Array<TreeNode>>}
+ * @returns {Tree}
  */
-export const createLiabilitiesTree = (accounts: Liability[]) => {
+export const createLiabilitiesTree = (accounts: Liability[]): Tree => {
+  const nonceMap = new Map<string, string>()
+  accounts.forEach((acc) => {
+    nonceMap.set(acc.accountId, randomString(32))
+    acc.accountId = acc.accountId + nonceMap.get(acc.accountId)
+  })
   const liabilities = createLiabilities(accounts)
   const leaves = liabilities.map((liability, idx) => getLeaf(liability, idx))
-  const tree = generateTree(leaves)
-  return tree.reverse()
+  const merkleTree = generateTree(leaves)
+  return {
+    merkleTree: merkleTree.reverse(),
+    nonceMap,
+  }
 }
 
 /**

@@ -31,17 +31,17 @@ const generateLeafForAccount = (
  */
 export const generatePartialProof = (
   idx: number,
-  tree: Array<Array<TreeNode>>,
+  merkleTree: Array<Array<TreeNode>>,
 ): PartialLiabilityProof => {
-  let i = tree.length - 1
+  let i = merkleTree.length - 1
   const leafIndex = idx
-  const balance = tree[i][idx].sum
+  const balance = merkleTree[i][idx].sum
   const path: MerklePath = []
   while (i > 0) {
     if (idx % 2 === 0) {
-      path.push({ node: tree[i][idx + 1], index: idx + 1 })
+      path.push({ node: merkleTree[i][idx + 1], index: idx + 1 })
     } else {
-      path.push({ node: tree[i][idx - 1], index: idx - 1 })
+      path.push({ node: merkleTree[i][idx - 1], index: idx - 1 })
     }
     idx = Math.floor(idx / 2)
     i--
@@ -60,22 +60,27 @@ export const generatePartialProof = (
  * @returns {LiabilityProof}
  */
 
-export const createProof = (accountId: string, tree: Array<Array<TreeNode>>) => {
-  const leaves = tree[tree.length - 1]
+export const createProof = (accountId: string, tree: Tree) => {
+  const merkleTree = tree.merkleTree
+  const leaves = merkleTree[merkleTree.length - 1]
   const leafIndex: Array<number> = []
   leaves.forEach((leaf, idx) => {
-    if (leaf.hash === generateLeafForAccount(accountId, leaf, idx)) {
+    if (
+      leaf.hash ===
+      generateLeafForAccount(accountId + tree.nonceMap.get(accountId), leaf, idx)
+    ) {
       leafIndex.push(idx)
     }
   })
   const partialLiabilityProofs: PartialLiabilityProof[] = leafIndex.map((idx) => {
-    return generatePartialProof(idx, tree)
+    return generatePartialProof(idx, merkleTree)
   })
-  // find sum in partialLiabilityProof using reduce.
   let totalBalance = 0
   partialLiabilityProofs.forEach((proof) => (totalBalance += proof.balance))
+  const noncedAccountId = accountId + tree.nonceMap.get(accountId)
+
   return {
-    accountId,
+    noncedAccountId,
     partialLiabilityProofs,
     totalBalance,
   }
@@ -103,7 +108,7 @@ export const isLiabilityIncludedInTree = (
   let isValid = true
   let provenBalance = 0
   liabilityProof.partialLiabilityProofs.forEach((partialProof) => {
-    if (!isPartialProofValid(partialProof, rootHash, liabilityProof.accountId)) {
+    if (!isPartialProofValid(partialProof, rootHash, liabilityProof.noncedAccountId)) {
       isValid = false
     } else {
       provenBalance += partialProof.balance
