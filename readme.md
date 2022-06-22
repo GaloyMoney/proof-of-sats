@@ -53,8 +53,7 @@ const isValid: boolean = isLiabilityIncludedInTree(liabilityProof, rootHash)
 
 ### createLiabilitiesTree
 
-Generate a liabilities' tree from the given list of userInfo.
-The function accepts a list of accounts and returns a LiabilityTree. The balance associated with each account is shuffled, split into at-least two parts, and then again shuffled to ensure better privacy of an individual user. For every account a random cryptographically secure nonce is generated and stored as a Map in the LiabilityTree. This nonce is useful for maintaining the privacy of the user since each individual account will have a unique nonce. The leaf hash is obtained by using SHA256 hashing algorithm. The parameters for the hash function includes ```accountId, nonce, balance and the index (of the account in the list)```.
+Generate a liabilities' tree from the given list of accounts. The function accepts a list of accounts and returns a LiabilityTree. The balance associated with each account is shuffled, split into at-least two parts, and then again shuffled to ensure better privacy of an individual user. For every account a random cryptographically secure nonce is generated and stored as a Map in the LiabilityTree. This nonce is useful for maintaining the privacy of the user since each individual account will have a unique nonce. The leaf hash is obtained by using SHA256 hashing algorithm. The parameters for the hash function includes ```accountId, nonce, balance and the index (of the account in the list)```.
  The structure of a LiabilityTree is defined below.
 
 ```js
