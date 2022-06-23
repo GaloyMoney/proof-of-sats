@@ -44,7 +44,7 @@ export const createProof = (
   tree: LiabilityTree,
 ): LiabilityProof | Error => {
   const merkleTree = tree.merkleTree
-  const nonce = tree.nonceMap.get(accountId)
+  const nonce = tree.accountToNonceMap.get(accountId)
   if (!nonce) {
     return new Error("Account not found")
   }

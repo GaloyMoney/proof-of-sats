@@ -1,6 +1,11 @@
 import { createHash, randomBytes } from "crypto"
 
-// to generate a random integer between min (inclusive) and max (inclusive).
+/**
+ * Generate a random integer between min(inclusive) and max(inclusive)
+ * @param min
+ * @param max
+ * @returns {number}
+ */
 export const randomInt = (min = 0, max: number): number => {
   if (min > max) {
     const temp = min
@@ -10,7 +15,11 @@ export const randomInt = (min = 0, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-// function to shuffle the array
+/**
+ * shuffles the content of an array
+ * @param arr
+ * @returns {Array<any>} a shuffled array
+ */
 export const shuffle = <T>(arr: T[]): T[] => {
   const result = arr.map((element) => element)
   let curr = result.length
@@ -26,7 +35,12 @@ export const shuffle = <T>(arr: T[]): T[] => {
   return result
 }
 
-// Combine the two nodes to generate their parent node
+/**
+ * generates a node of a merkle tree
+ * @param leftChild
+ * @param rightChild
+ * @returns {TreeNode} a node of a merkle tree
+ */
 export const nodeCombiner = (leftChild: TreeNode, rightChild: TreeNode): TreeNode => {
   const data = `${leftChild.hash}${leftChild.sum}${rightChild.hash}${rightChild.sum}`
   return {
@@ -43,10 +57,10 @@ export const randomString = (length = 32): string => {
  * create a leaf node from a liability by using sha256 algorithm.
  * @param liability
  * @param idx
+ * @param nonce
  * @returns {TreeNode} a leaf node
  */
 export const getLeaf = (liability: Liability, idx: number, nonce: string): TreeNode => {
-  // const data = `${liability.accountId}${liability.balance}${idx}`
   const hash = createHash("sha256")
   hash.update(liability.accountId)
   hash.update(nonce)

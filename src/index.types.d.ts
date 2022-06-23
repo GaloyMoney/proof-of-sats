@@ -29,5 +29,5 @@ type TreeNode = {
 
 type LiabilityTree = {
   merkleTree: Array<Array<TreeNode>>
-  nonceMap: Map<string, string>
+  accountToNonceMap: Map<string, string>
 }
