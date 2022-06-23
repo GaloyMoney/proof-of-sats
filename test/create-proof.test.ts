@@ -15,7 +15,7 @@ describe("Test the createProof function", () => {
     expect(liabilityProof).toBeInstanceOf(Object)
     expect(liabilityProof.accountId).toBe("01")
     expect(liabilityProof.partialLiabilityProofs).toBeInstanceOf(Array)
-    expect(liabilityProof.nonce).toBe(tree.nonceMap.get("01")!)
+    expect(liabilityProof.nonce).toBe(tree.accountToNonceMap.get("01")!)
     expect(calculatedBalance).toBe(expectedBalance)
     expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
   })
@@ -29,7 +29,7 @@ describe("Test the createProof function", () => {
       calculatedBalance += proof.balance
     })
     expect(liabilityProof).toBeInstanceOf(Object)
-    expect(liabilityProof.nonce).toBe(tree.nonceMap.get("02"))
+    expect(liabilityProof.nonce).toBe(tree.accountToNonceMap.get("02"))
     expect(calculatedBalance).toBe(expectedBalance)
     expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
   })

@@ -7,7 +7,7 @@ describe("test the createLiabilitiesTree function", () => {
     testAccountsForTree.forEach((acc) => (expectedSum += acc.balance))
     const tree = createLiabilitiesTree(testAccountsForTree)
     const merkleTree = tree.merkleTree
-    const nonce = tree.nonceMap
+    const nonce = tree.accountToNonceMap
     expect(tree).toBeInstanceOf(Object)
     expect(nonce.size).toBe(5)
     expect(merkleTree).toBeDefined()
