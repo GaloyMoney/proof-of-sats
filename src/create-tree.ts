@@ -26,6 +26,7 @@ export const createLiabilities = (accounts: Liability[]): Liability[] => {
  * @returns {LiabilityTree} a LiabilityTree object containing merkleTree and nonceMap
  */
 export const createLiabilitiesTree = (accounts: Liability[]): LiabilityTree => {
+  const timeStamp = Date.now()
   const accountToNonceMap = new Map<string, string>()
   accounts.forEach((acc) => {
     accountToNonceMap.set(acc.accountId, randomString(32))
@@ -38,6 +39,7 @@ export const createLiabilitiesTree = (accounts: Liability[]): LiabilityTree => {
   return {
     merkleTree: merkleTree.reverse(),
     accountToNonceMap,
+    timeStamp,
   }
 }
 

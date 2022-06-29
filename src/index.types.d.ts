@@ -30,4 +30,5 @@ type TreeNode = {
 type LiabilityTree = {
   merkleTree: Array<Array<TreeNode>>
   accountToNonceMap: Map<string, string>
+  timeStamp: number // In milliseconds
 }
