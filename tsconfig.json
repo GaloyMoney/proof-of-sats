@@ -1,16 +1,21 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "outDir": "lib",
-    "sourceMap": true,
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["dom", "es2021", "scripthost"],
+    "outDir": "dist",
     "strict": true,
-    "target": "es2020",
-    "noImplicitAny": true,
-    "esModuleInterop": true,
-    "baseUrl": "./",
+    "forceConsistentCasingInFileNames": true,
+    "useUnknownInCatchVariables": false,
+    "alwaysStrict": true,
+    "allowJs": false,
+    "sourceMap": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "noErrorTruncation": true
   },
-  "compileOnSave": true,
-  "include": ["src/**/*", "test/**/*"]
+  "include": ["src"]
 }
