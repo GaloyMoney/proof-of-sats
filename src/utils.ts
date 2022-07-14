@@ -42,9 +42,13 @@ export const shuffle = <T>(arr: T[]): T[] => {
  * @returns {TreeNode} a node of a merkle tree
  */
 export const nodeCombiner = (leftChild: TreeNode, rightChild: TreeNode): TreeNode => {
-  const data = `${leftChild.hash}${leftChild.sum}${rightChild.hash}${rightChild.sum}`
+  const hash = createHash("sha256")
+  hash.update(leftChild.hash)
+  hash.update(leftChild.sum.toString())
+  hash.update(rightChild.hash)
+  hash.update(rightChild.sum.toString())
   return {
-    hash: createHash("sha256").update(data).digest("hex"),
+    hash: hash.digest("hex"),
     sum: leftChild.sum + rightChild.sum,
   }
 }
