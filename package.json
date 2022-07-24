@@ -2,7 +2,8 @@
   "name": "proof-of-liabilities",
   "version": "1.0.0",
   "description": "library to implement proof-of-liabilities.",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "jest --no-cache --runInBand",
     "code:check": "yarn tsc:check && yarn eslint:check && yarn prettier:check",
