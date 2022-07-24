@@ -1,8 +1,6 @@
 import { shuffle, nodeCombiner, randomString, getLeaf } from "./utils"
 import { getStretchedLiabilities } from "./get-stretched-liabilities"
 
-// TODO: Still have to implement the hashing with nonce and blockheight
-
 /**
  * accept a list of accounts and return a shuffled and stretched list of liabilities
  * @param accounts
@@ -26,9 +24,9 @@ export const createLiabilities = (accounts: Liability[]): Liability[] => {
  * @returns {LiabilityTree} a LiabilityTree object containing merkleTree and nonceMap
  */
 export const createLiabilitiesTree = (accounts: Liability[]): LiabilityTree => {
-  const accountToNonceMap = new Map<string, string>()
+  const accountToNonceMap = new Map<AccountId, Nonce>()
   accounts.forEach((acc) => {
-    accountToNonceMap.set(acc.accountId, randomString(32))
+    accountToNonceMap.set(acc.accountId, randomString(32) as Nonce)
   })
   const liabilities = createLiabilities(accounts)
   const leaves = liabilities.map((liability, idx) =>

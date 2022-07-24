@@ -1,33 +1,40 @@
+type Hash = string & { readonly brand: unique symbol }
+
+type AccountId = string & { readonly brand: unique symbol }
+
+type Balance = number & { readonly brand: unique symbol }
+
+type Nonce = string & { readonly brand: unique symbol }
+
 type Liability = {
-  accountId: string
-  balance: number
+  readonly accountId: AccountId
+  readonly balance: Balance
 }
 
-// What should be the correct nomenclature for the MerklePath ?
 type MerklePath = {
-  node: TreeNode
+  readonly node: TreeNode
   index: number
 }[]
 
 type PartialLiabilityProof = {
-  merklePath: MerklePath
-  idx: number // This would help us to create a leaf while trying to create a proof
-  balance: number // This would help us to create a leaf while trying to create a proof
+  readonly merklePath: MerklePath
+  idx: number
+  readonly balance: Balance
 }
 
 type LiabilityProof = {
-  accountId: string
-  nonce: string
-  partialLiabilityProofs: PartialLiabilityProof[]
-  totalBalance: number
+  readonly accountId: AccountId
+  readonly nonce: Nonce
+  readonly partialLiabilityProofs: PartialLiabilityProof[]
+  readonly totalBalance: Balance
 }
 
 type TreeNode = {
-  hash: string
-  sum: number
+  readonly hash: Hash
+  readonly sum: Balance
 }
 
 type LiabilityTree = {
-  merkleTree: Array<Array<TreeNode>>
-  accountToNonceMap: Map<string, string>
+  readonly merkleTree: Array<Array<TreeNode>>
+  readonly accountToNonceMap: Map<AccountId, Nonce>
 }

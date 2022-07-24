@@ -18,7 +18,7 @@ export const randomInt = (min = 0, max: number): number => {
 /**
  * shuffles the content of an array
  * @param arr
- * @returns {Array<any>} a shuffled array
+ * @returns {Array<T>} a shuffled array
  */
 export const shuffle = <T>(arr: T[]): T[] => {
   const result = arr.map((element) => element)
@@ -48,8 +48,8 @@ export const nodeCombiner = (leftChild: TreeNode, rightChild: TreeNode): TreeNod
   hash.update(rightChild.hash)
   hash.update(rightChild.sum.toString())
   return {
-    hash: hash.digest("hex"),
-    sum: leftChild.sum + rightChild.sum,
+    hash: hash.digest("hex") as Hash,
+    sum: (leftChild.sum + rightChild.sum) as Balance,
   }
 }
 
@@ -64,7 +64,7 @@ export const randomString = (length = 32): string => {
  * @param nonce
  * @returns {TreeNode} a leaf node
  */
-export const getLeaf = (liability: Liability, idx: number, nonce: string): TreeNode => {
+export const getLeaf = (liability: Liability, idx: number, nonce: Nonce): TreeNode => {
   const hash = createHash("sha256")
   hash.update(liability.accountId)
   hash.update(nonce)
@@ -72,7 +72,7 @@ export const getLeaf = (liability: Liability, idx: number, nonce: string): TreeN
   hash.update(idx.toString())
 
   return {
-    hash: hash.digest("hex"),
+    hash: hash.digest("hex") as Hash,
     sum: liability.balance,
   }
 }
@@ -87,15 +87,15 @@ export const getLeaf = (liability: Liability, idx: number, nonce: string): TreeN
  */
 
 export const generateHashForAccount = (
-  accountId: string,
-  nonce: string,
+  accountId: AccountId,
+  nonce: Nonce,
   leaf: TreeNode,
   idx: number,
-): string => {
+): Hash => {
   const hash = createHash("sha256")
   hash.update(accountId)
   hash.update(nonce)
   hash.update(leaf.sum.toString())
   hash.update(idx.toString())
-  return hash.digest("hex")
+  return hash.digest("hex") as Hash
 }

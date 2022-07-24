@@ -12,18 +12,15 @@ export const getStretchedLiabilities = (liabilities: Liability[]): Liability[] =
     finalLiabilities.forEach((liability) => {
       if (liability.balance >= 0 && stretchedLiabilitiesLength < totalLeaves) {
         stretchedLiabilitiesLength++
-        const val1: number = randomInt(
-          0,
-          Math.floor(parseInt(liability.balance.toString())),
-        )
-        const val2: number = liability.balance - val1
+        const val1 = randomInt(0, Math.floor(parseInt(liability.balance.toString())))
+        const val2 = liability.balance - val1
         stretchedLiabilities.push({
           accountId: liability.accountId,
-          balance: val1,
+          balance: val1 as Balance,
         })
         stretchedLiabilities.push({
           accountId: liability.accountId,
-          balance: val2,
+          balance: val2 as Balance,
         })
       } else {
         stretchedLiabilities.push(liability)
