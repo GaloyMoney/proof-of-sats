@@ -1,4 +1,4 @@
-import { getLeaf, nodeCombiner } from "./utils"
+import { getLeaf, nodeCombiner, toBalance } from "./utils"
 
 /**
  *
@@ -17,7 +17,7 @@ export const isLiabilityIncludedInTree = (
   if (liabilityProof.partialLiabilityProofs.length == 0) {
     return {
       isProofValid: false,
-      provenBalance: 0 as Balance,
+      provenBalance: toBalance(0),
     }
   }
   let isValid = true
@@ -38,7 +38,7 @@ export const isLiabilityIncludedInTree = (
   })
   return {
     isProofValid: isValid,
-    provenBalance: provenBalance as Balance,
+    provenBalance: toBalance(provenBalance),
   }
 }
 

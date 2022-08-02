@@ -1,10 +1,10 @@
 import { createHash } from "crypto"
-import {getLeaf} from "../../src"
+import {getLeaf, toAccountId, toBalance} from "../../src"
 
-describe("Test the getLeaf function", ()=>{
+describe("getLeaf function", ()=>{
   const liability : Liability = {
-    accountId : "124-356-347-293-344" as AccountId,
-    balance : 214 as Balance
+    accountId : toAccountId("124-356-347-293-344"),
+    balance : toBalance(214)
   }
   const index = 13 
   const nonce = 'wertyuiokjhgfdsxcvbn765qwert' as Nonce

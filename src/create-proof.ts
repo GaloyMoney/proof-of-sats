@@ -1,4 +1,4 @@
-import { generateHashForAccount } from "./utils"
+import { generateHashForAccount, toBalance } from "./utils"
 /**
  * returns PartialProof for a given node
  *
@@ -63,6 +63,6 @@ export const createProof = (
     accountId,
     nonce,
     partialLiabilityProofs,
-    totalBalance: totalBalance as Balance,
+    totalBalance: toBalance(totalBalance),
   }
 }

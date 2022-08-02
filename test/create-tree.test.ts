@@ -1,11 +1,11 @@
 import { createLiabilitiesTree } from "../src"
 import { testAccountsForTree } from "./helper"
 
-describe("test the createLiabilitiesTree function", () => {
+describe("createLiabilitiesTree function", () => {
   it("should return a tree", () => {
     let expectedSum = 0
     testAccountsForTree.forEach((acc) => (expectedSum += acc.balance))
-    const tree = createLiabilitiesTree(testAccountsForTree as Liability[])
+    const tree = createLiabilitiesTree(testAccountsForTree )
     const merkleTree = tree.merkleTree
     const nonce = tree.accountToNonceMap
     expect(tree).toBeInstanceOf(Object)

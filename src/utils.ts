@@ -81,7 +81,7 @@ export const getLeaf = (liability: Liability, idx: number, nonce: Nonce): TreeNo
  * returns the calculated hash of the given data
  * @param accountId
  * @param nonce
- * @param leaf node
+ * @param leaf
  * @param idx
  * @returns {string} a SHA256 hash of the given data
  */
@@ -99,3 +99,7 @@ export const generateHashForAccount = (
   hash.update(idx.toString())
   return hash.digest("hex") as Hash
 }
+
+export const toAccountId = (accountId: string): AccountId => accountId as AccountId
+
+export const toBalance = (balance: number): Balance => balance as Balance

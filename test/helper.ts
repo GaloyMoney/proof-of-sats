@@ -1,3 +1,4 @@
+import { toAccountId, toBalance } from "../src"
 export const testAccountsForUtils = [
   { accountId: "234324", balance: 32413 },
   { accountId: "234342hgdfg4", balance: 3242131 },
@@ -6,10 +7,10 @@ export const testAccountsForUtils = [
   { accountId: "234jyud324", balance: 3241 },
 ]
 
-export const testAccountsForTree = [
-  { accountId: "01", balance: 23 },
-  { accountId: "02", balance: 0 },
-  { accountId: "03", balance: 13 },
-  { accountId: "04", balance: 121 },
-  { accountId: "05", balance: 12 },
+export const testAccountsForTree: Liability[] = [
+  { accountId: toAccountId("01"), balance: toBalance(23) },
+  { accountId: toAccountId("02"), balance: toBalance(0) },
+  { accountId: toAccountId("03"), balance: toBalance(13) },
+  { accountId: toAccountId("04"), balance: toBalance(121) },
+  { accountId: toAccountId("05"), balance: toBalance(12) },
 ]

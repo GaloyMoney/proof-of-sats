@@ -1,11 +1,11 @@
-import { createProof, createLiabilitiesTree} from "../src"
+import { createProof, createLiabilitiesTree, toAccountId} from "../src"
 import { testAccountsForTree } from "./helper"
 
 
-describe("Test the createProof function", () => {
+describe("createProof function", () => {
   const tree = createLiabilitiesTree(testAccountsForTree as Liability[])
   it("should return a LiabilityProof object", () => {
-    const liabilityProof = createProof("01" as AccountId, tree)
+    const liabilityProof = createProof(toAccountId("01"), tree)
     if (liabilityProof instanceof Error) throw liabilityProof
     let calculatedBalance = 0
     liabilityProof.partialLiabilityProofs.forEach((proof) => {
@@ -21,7 +21,7 @@ describe("Test the createProof function", () => {
   })
 
   it("should return a LiabilityProof object", () => {
-    const liabilityProof = createProof("02" as AccountId, tree)
+    const liabilityProof = createProof(toAccountId("02"), tree)
     const expectedBalance = 0
     let calculatedBalance = 0
     if (liabilityProof instanceof Error) throw liabilityProof
@@ -29,7 +29,7 @@ describe("Test the createProof function", () => {
       calculatedBalance += proof.balance
     })
     expect(liabilityProof).toBeInstanceOf(Object)
-    expect(liabilityProof.nonce).toBe(tree.accountToNonceMap.get("02" as AccountId))
+    expect(liabilityProof.nonce).toBe(tree.accountToNonceMap.get(toAccountId("02")))
     expect(calculatedBalance).toBe(expectedBalance)
     expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
   })

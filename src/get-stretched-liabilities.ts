@@ -1,4 +1,4 @@
-import { randomInt } from "./utils"
+import { randomInt, toBalance } from "./utils"
 
 // IMPORTANT NOTE: At present this function assumes that the liabilities will have an integer balance.
 export const getStretchedLiabilities = (liabilities: Liability[]): Liability[] => {
@@ -16,11 +16,11 @@ export const getStretchedLiabilities = (liabilities: Liability[]): Liability[] =
         const val2 = liability.balance - val1
         stretchedLiabilities.push({
           accountId: liability.accountId,
-          balance: val1 as Balance,
+          balance: toBalance(val1),
         })
         stretchedLiabilities.push({
           accountId: liability.accountId,
-          balance: val2 as Balance,
+          balance: toBalance(val2),
         })
       } else {
         stretchedLiabilities.push(liability)
