@@ -1,6 +1,6 @@
 import { randomInt } from "../../src/utils"
 
-describe("test randomInt", () => {
+describe("randomInt function", () => {
   it("should return a random integer between min (inclusive) and max (inclusive)", () => {
     const min = 0
     const max = 10

@@ -1,11 +1,11 @@
-import { createProof } from "../src/create-proof"
+import { createProof, createLiabilitiesTree, toAccountId} from "../src"
 import { testAccountsForTree } from "./helper"
-import { createLiabilitiesTree } from "../src/create-tree"
 
-describe("Test the createProof function", () => {
-  const tree = createLiabilitiesTree(testAccountsForTree)
+
+describe("createProof function", () => {
+  const tree = createLiabilitiesTree(testAccountsForTree as Liability[])
   it("should return a LiabilityProof object", () => {
-    const liabilityProof = createProof("01", tree)
+    const liabilityProof = createProof(toAccountId("01"), tree)
     if (liabilityProof instanceof Error) throw liabilityProof
     let calculatedBalance = 0
     liabilityProof.partialLiabilityProofs.forEach((proof) => {
@@ -15,13 +15,13 @@ describe("Test the createProof function", () => {
     expect(liabilityProof).toBeInstanceOf(Object)
     expect(liabilityProof.accountId).toBe("01")
     expect(liabilityProof.partialLiabilityProofs).toBeInstanceOf(Array)
-    expect(liabilityProof.nonce).toBe(tree.accountToNonceMap.get("01")!)
+    expect(liabilityProof.nonce).toBe(tree.accountToNonceMap.get("01" as AccountId)!)
     expect(calculatedBalance).toBe(expectedBalance)
     expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
   })
-  // test when an account has a balance of 0
+
   it("should return a LiabilityProof object", () => {
-    const liabilityProof = createProof("02", tree)
+    const liabilityProof = createProof(toAccountId("02"), tree)
     const expectedBalance = 0
     let calculatedBalance = 0
     if (liabilityProof instanceof Error) throw liabilityProof
@@ -29,12 +29,12 @@ describe("Test the createProof function", () => {
       calculatedBalance += proof.balance
     })
     expect(liabilityProof).toBeInstanceOf(Object)
-    expect(liabilityProof.nonce).toBe(tree.accountToNonceMap.get("02"))
+    expect(liabilityProof.nonce).toBe(tree.accountToNonceMap.get(toAccountId("02")))
     expect(calculatedBalance).toBe(expectedBalance)
     expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
   })
   it("should return an empty object for an invalid accountId", () => {
-    const liabilityProof = createProof("123", tree)
+    const liabilityProof = createProof("123" as AccountId, tree)
     expect(liabilityProof).toBeInstanceOf(Error)
   })
 })
