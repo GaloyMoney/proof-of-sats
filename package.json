@@ -6,6 +6,7 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "jest --no-cache --runInBand",
+    "build": "yarn install && rm -rf dist && tsc --sourceMap false --skipLibCheck true",
     "code:check": "yarn tsc:check && yarn eslint:check && yarn prettier:check",
     "eslint:check": "eslint \"{src,test}/**/*.ts\"",
     "eslint:fix": "eslint \"{src,test}/**/*.ts\" --fix",
