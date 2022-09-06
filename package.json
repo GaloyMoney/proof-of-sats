@@ -1,11 +1,12 @@
 {
   "name": "proof-of-liabilities",
   "version": "1.0.0",
-  "description": "library to implement proof-of-liabilities.",
+  "description": "Library to implement proof-of-liabilities.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
     "test": "jest --no-cache --runInBand",
+    "build": "yarn install && rm -rf dist && tsc --sourceMap false --skipLibCheck true",
     "code:check": "yarn tsc:check && yarn eslint:check && yarn prettier:check",
     "eslint:check": "eslint \"{src,test}/**/*.ts\"",
     "eslint:fix": "eslint \"{src,test}/**/*.ts\" --fix",
@@ -13,11 +14,7 @@
     "prettier:write": "prettier --write .",
     "tsc:check": "tsc --pretty --noEmit --skipLibCheck"
   },
-  "keywords": [
-    "proof",
-    "of",
-    "liabilities"
-  ],
+  "keywords": ["proof-of-liabilities", "proof-of-reserves "],
   "author": "Vaibhav Dixit",
   "license": "ISC",
   "devDependencies": {
