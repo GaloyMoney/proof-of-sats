@@ -1,7 +1,7 @@
 {
   "name": "proof-of-liabilities",
   "version": "1.0.0",
-  "description": "library to implement proof-of-liabilities.",
+  "description": "Library to implement proof-of-liabilities.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
@@ -14,11 +14,7 @@
     "prettier:write": "prettier --write .",
     "tsc:check": "tsc --pretty --noEmit --skipLibCheck"
   },
-  "keywords": [
-    "proof",
-    "of",
-    "liabilities"
-  ],
+  "keywords": ["proof-of-liabilities", "proof-of-reserves "],
   "author": "Vaibhav Dixit",
   "license": "ISC",
   "devDependencies": {
