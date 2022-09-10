@@ -3,7 +3,7 @@ import { testAccountsForTree } from "./helper"
 
 describe("createLiabilities function", () => {
   it("should return an array of liabilities", () => {
-    const result = createLiabilities(testAccountsForTree )
+    const result = createLiabilities(testAccountsForTree)
     expect(result).toBeInstanceOf(Array)
     expect(result).toHaveLength(
       Math.pow(2, Math.ceil(Math.log2(testAccountsForTree.length * 2))),

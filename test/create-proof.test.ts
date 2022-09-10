@@ -1,6 +1,5 @@
-import { createProof, createLiabilitiesTree, toAccountId} from "../src"
+import { createProof, createLiabilitiesTree, toAccountId } from "../src"
 import { testAccountsForTree } from "./helper"
-
 
 describe("createProof function", () => {
   const tree = createLiabilitiesTree(testAccountsForTree as Liability[])
