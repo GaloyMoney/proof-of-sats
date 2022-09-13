@@ -1,5 +1,5 @@
 {
-  "name": "proof-of-sats",
+  "name": "@galoymoney/proof-of-sats",
   "version": "1.0.0",
   "description": "Library to implement proof-of-liabilities.",
   "main": "dist/src/index.js",
