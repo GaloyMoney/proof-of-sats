@@ -1,0 +1,19 @@
+#@data/values
+---
+git_uri: git@github.com:GaloyMoney/proof-of-sats.git
+git_branch: main
+github_private_key: ((github.private_key))
+github_token: ((github.api_token))
+
+docker_registry: us.gcr.io/galoy-org
+docker_registry_user: ((docker-creds.username))
+docker_registry_password: ((docker-creds.password))
+
+git_version_branch: version
+gh_org: GaloyMoney
+gh_repository: proof-of-sats
+
+slack_channel: proof-of-sats-github
+slack_webhook_url: ((addons-slack.api_url))
+
+npm_token: ((npm.token))
