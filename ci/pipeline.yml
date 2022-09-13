@@ -1,0 +1,160 @@
+#@ load("@ytt:data", "data")
+
+#@ load("vendor/pipeline-fragments.lib.yml",
+#@   "repo_resource",
+#@   "pipeline_tasks_resource",
+#@   "bundled_deps_resource",
+#@   "install_yarn_deps",
+#@   "nodejs_deps_resource",
+#@   "deps_version_resource",
+#@   "nodejs_task_image_config",
+#@   "gcr_resource_type",
+#@   "slack_resource",
+#@   "slack_resource_type",
+#@   "release_task_image_config",
+#@   "version_resource",
+#@   "gh_release_resource")
+
+jobs:
+
+- #@ install_yarn_deps()
+
+- name: test
+  serial: true
+  plan:
+  - in_parallel:
+    - { get: repo, trigger: true }
+    - { get: bundled-deps, trigger: true }
+    - { get: pipeline-tasks }
+  - task: test
+    config:
+      platform: linux
+      image_resource: #@ nodejs_task_image_config()
+      inputs:
+      - name: bundled-deps
+      - name: pipeline-tasks
+      - name: repo
+      run:
+        path: pipeline-tasks/ci/tasks/test.sh
+- name: build
+  serial: true
+  plan:
+  - in_parallel:
+    - { get: repo, trigger: true }
+    - { get: bundled-deps, trigger: true }
+    - { get: pipeline-tasks }
+  - task: build
+    config:
+      platform: linux
+      image_resource: #@ nodejs_task_image_config()
+      inputs:
+      - name: bundled-deps
+      - name: pipeline-tasks
+      - name: repo
+      outputs:
+      - name: repo
+      run:
+        path: pipeline-tasks/ci/tasks/build.sh
+
+- name: release
+  serial: true
+  plan:
+  - in_parallel:
+    - get: repo
+      passed:
+      - test
+      - build
+    - get: bundled-deps
+    - get: pipeline-tasks
+    - get: version
+  - task: prep-release
+    config:
+      platform: linux
+      image_resource: #@ release_task_image_config()
+      inputs:
+      - name: pipeline-tasks
+      - name: repo
+      - name: version
+      outputs:
+      - name: version
+      - name: artifacts
+      run:
+        path: pipeline-tasks/ci/vendor/tasks/prep-release-src.sh
+  - task: build
+    config:
+      platform: linux
+      image_resource: #@ nodejs_task_image_config()
+      inputs:
+      - name: bundled-deps
+      - name: pipeline-tasks
+      - name: repo
+      outputs:
+      - name: repo
+      run:
+        path: pipeline-tasks/ci/tasks/build.sh
+  - task: update-repo
+    config:
+      platform: linux
+      image_resource: #@ nodejs_task_image_config()
+      inputs:
+      - name: pipeline-tasks
+      - name: repo
+      - name: version
+      outputs:
+      - name: repo
+      run:
+        path: pipeline-tasks/ci/tasks/update-repo.sh
+  - put: repo-out
+    params:
+      tag: artifacts/gh-release-tag
+      repository: repo
+      rebase: true
+  - put: gh-release
+    params:
+      name: artifacts/gh-release-name
+      tag: artifacts/gh-release-tag
+      body: artifacts/gh-release-notes.md
+  - put: npm-release
+    params:
+      path: repo
+      version: version/version
+      public: true
+  - put: version
+    params:
+      file: version/version
+
+resources:
+- #@ repo_resource()
+- name: repo-out
+  type: git
+  source:
+    uri: #@ data.values.git_uri
+    branch: #@ data.values.git_branch
+    private_key: #@ data.values.github_private_key
+
+- #@ pipeline_tasks_resource()
+- #@ nodejs_deps_resource()
+- #@ deps_version_resource()
+- #@ bundled_deps_resource()
+
+- #@ version_resource()
+- #@ gh_release_resource()
+
+- #@ slack_resource()
+
+- name: npm-release
+  type: npm
+  source:
+    package: proof-of-sats
+    scope: galoymoney
+    registry:
+      uri: https://registry.npmjs.org/
+      token: #@ data.values.npm_token
+
+resource_types:
+- #@ gcr_resource_type()
+- #@ slack_resource_type()
+- name: npm
+  type: docker-image
+  source:
+    repository: timotto/concourse-npm-resource
