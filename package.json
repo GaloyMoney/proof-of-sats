@@ -1,5 +1,5 @@
 {
-  "name": "proof-of-liabilities",
+  "name": "proof-of-sats",
   "version": "1.0.0",
   "description": "Library to implement proof-of-liabilities.",
   "main": "dist/src/index.js",
@@ -16,7 +16,8 @@
   },
   "keywords": [
     "proof-of-liabilities",
-    "proof-of-reserves "
+    "proof-of-reserves",
+    "proof-of-sats"
   ],
   "author": "Vaibhav Dixit",
   "license": "ISC",
