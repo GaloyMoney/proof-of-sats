@@ -1,4 +1,4 @@
-# proof-of-liabilities
+# proof-of-sats
 
 This library implements proof-of-liabilities for a bitcoin banking infrastructure.
 The core motivation behind this library is to provide a simple, easy to use, and secure way to create merkle trees and liability proofs and to provide an easy interface to verify the liability proofs. This library can be used by any individual or organization that want to enable a proof of liabilities system for thier organisation. Proof of Liabilities along with Proof of Reserves can be used to create a Proof of Solvency for an organisation.
@@ -10,9 +10,9 @@ Using Proof of Solvency a bank is able to provide assurance to the client that t
 Install the package with:
 
 ```bash
-npm i proof-of-liabilities
+npm i @galoymoney/proof-of-sats
 # or
-yarn add proof-of-liabilities
+yarn add @galoymoney/proof-of-sats
 ```
 
 # Usage
@@ -48,7 +48,7 @@ Once the entire leaf row is traversed we can traverse through the immediate pare
 ## Calling the createLiabilitiesTree function
 
 ```js
-import { createLiabilitiesTree } from "proof-of-liabilities"
+import { createLiabilitiesTree } from "@galoymoney/proof-of-sats"
 
 // Accounts refer to a list of accountId's and balances.
 const tree = createLiabilitiesTree(accounts)
@@ -88,7 +88,7 @@ The partialLiabilityProof object also contains an `idx` field and a `balance` fi
 ## Calling the createProof function
 
 ```js
-import { createProof } from "proof-of-liabilities/"
+import { createProof } from "@galoymoney/proof-of-sats"
 /**
  * @param tree
  * @param accountId
@@ -118,7 +118,7 @@ Now we pass in all the paritalLiabilityProofs one by one to the `isPartialProofV
 ## Calling the isLiabilityIncludedInTree function
 
 ```js
-import { isLiabilityIncludedInTree } from "proof-of-liabilities"
+import { isLiabilityIncludedInTree } from "@galoymoney/proof-of-sats"
 const isValid: boolean = isLiabilityIncludedInTree(liabilityProof, rootHash)
 ```
 
