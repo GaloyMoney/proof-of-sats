@@ -38,3 +38,25 @@ type LiabilityTree = {
   readonly merkleTree: Array<Array<TreeNode>>
   readonly accountToNonceMap: Map<AccountId, Nonce>
 }
+
+type CreateProofArgs = {
+  readonly accountId: AccountId
+  readonly tree: LiabilityTree
+}
+
+type GeneratePartialProofArgs = {
+  readonly idx: number
+  readonly merkleTree: Array<Array<TreeNode>>
+}
+
+type IsPartialProofValidArgs = {
+  readonly partialLiabilityProof: PartialLiabilityProof
+  readonly roothash: Hash
+  readonly accountId: AccountId
+  readonly nonce: Nonce
+}
+
+type IsLiabilityIncludedInTreeArgs = {
+  readonly liabilityProof: LiabilityProof
+  readonly roothash: Hash
+}

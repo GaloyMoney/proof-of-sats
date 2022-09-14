@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { generateHashForAccount, toBalance } from "./utils"
 /**
  * returns PartialProof for a given node
@@ -6,10 +7,10 @@ import { generateHashForAccount, toBalance } from "./utils"
  * @param merkleTree
  * @returns {PartialLiabilityProof}
  */
-export const generatePartialProof = (
-  idx: number,
-  merkleTree: Array<Array<TreeNode>>,
-): PartialLiabilityProof => {
+export const generatePartialProof = ({
+  idx,
+  merkleTree,
+}: GeneratePartialProofArgs): PartialLiabilityProof => {
   let i = merkleTree.length - 1
   const leafIndex = idx
   const balance = merkleTree[i][idx].sum
@@ -37,10 +38,10 @@ export const generatePartialProof = (
  * @returns {LiabilityProof} liabilityProof for a given account
  */
 
-export const createProof = (
-  accountId: AccountId,
-  tree: LiabilityTree,
-): LiabilityProof | Error => {
+export const createProof = ({
+  accountId,
+  tree,
+}: CreateProofArgs): LiabilityProof | Error => {
   const merkleTree = tree.merkleTree
   const nonce: Nonce = tree.accountToNonceMap.get(accountId)!
   if (!nonce) {
@@ -53,8 +54,11 @@ export const createProof = (
       leafIndex.push(idx)
     }
   })
-  const partialLiabilityProofs: PartialLiabilityProof[] = leafIndex.map((idx) => {
-    return generatePartialProof(idx, merkleTree)
+  const partialLiabilityProofs = leafIndex.map((idx) => {
+    return generatePartialProof({
+      idx,
+      merkleTree,
+    })
   })
   let totalBalance = 0
   partialLiabilityProofs.forEach((proof) => (totalBalance += proof.balance))
