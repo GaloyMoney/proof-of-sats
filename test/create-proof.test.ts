@@ -4,7 +4,8 @@ import { testAccountsForTree } from "./helper"
 describe("createProof function", () => {
   const tree = createLiabilitiesTree(testAccountsForTree as Liability[])
   it("should return a LiabilityProof object", () => {
-    const liabilityProof = createProof(toAccountId("01"), tree)
+    const accountId = toAccountId("01")
+    const liabilityProof = createProof({ accountId, tree })
     if (liabilityProof instanceof Error) throw liabilityProof
     let calculatedBalance = 0
     liabilityProof.partialLiabilityProofs.forEach((proof) => {
@@ -20,7 +21,10 @@ describe("createProof function", () => {
   })
 
   it("should return a LiabilityProof object", () => {
-    const liabilityProof = createProof(toAccountId("02"), tree)
+    const accountId = toAccountId("02")
+    const liabilityProof = createProof({
+      accountId, tree
+    })
     const expectedBalance = 0
     let calculatedBalance = 0
     if (liabilityProof instanceof Error) throw liabilityProof
@@ -33,7 +37,8 @@ describe("createProof function", () => {
     expect(liabilityProof.partialLiabilityProofs.length).toBeGreaterThan(1)
   })
   it("should return an empty object for an invalid accountId", () => {
-    const liabilityProof = createProof("123" as AccountId, tree)
+    const accountId = toAccountId("123")
+    const liabilityProof = createProof({accountId , tree})
     expect(liabilityProof).toBeInstanceOf(Error)
   })
 })

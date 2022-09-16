@@ -3,14 +3,14 @@ import { getLeaf, nodeCombiner, toBalance } from "./utils"
 /**
  *
  * @param liabilityProof
- * @param rootHash
+ * @param roothash
  * @returns {boolean}
  */
 
-export const isLiabilityIncludedInTree = (
-  liabilityProof: LiabilityProof,
-  rootHash: Hash,
-): {
+export const isLiabilityIncludedInTree = ({
+  liabilityProof,
+  roothash,
+}: IsLiabilityIncludedInTreeArgs): {
   isProofValid: boolean
   provenBalance: Balance
 } => {
@@ -24,12 +24,12 @@ export const isLiabilityIncludedInTree = (
   let provenBalance = 0
   liabilityProof.partialLiabilityProofs.forEach((partialProof) => {
     if (
-      !isPartialProofValid(
-        partialProof,
-        rootHash,
-        liabilityProof.accountId,
-        liabilityProof.nonce,
-      )
+      !isPartialProofValid({
+        partialLiabilityProof: partialProof,
+        roothash,
+        accountId: liabilityProof.accountId,
+        nonce: liabilityProof.nonce,
+      })
     ) {
       isValid = false
     } else {
@@ -45,17 +45,17 @@ export const isLiabilityIncludedInTree = (
 /**
  *  Accepts a rootHash and a PartialLiabilityProof and returns true if the proof is valid
  * @param partialLiabilityProof
- * @param rootHash
+ * @param roothash
  * @param accountId
  * @param nonce
  * @returns {boolean}
  */
-const isPartialProofValid = (
-  partialLiabilityProof: PartialLiabilityProof,
-  rootHash: Hash,
-  accountId: AccountId,
-  nonce: Nonce,
-): boolean => {
+const isPartialProofValid = ({
+  partialLiabilityProof,
+  roothash,
+  accountId,
+  nonce,
+}: IsPartialProofValidArgs): boolean => {
   const merklePath = partialLiabilityProof.merklePath
   const liability: Liability = {
     accountId: accountId,
@@ -75,5 +75,5 @@ const isPartialProofValid = (
     }
     currentNode = nodeCombiner(leftNode, rightNode)
   }
-  return currentNode.hash === rootHash
+  return currentNode.hash === roothash
 }
