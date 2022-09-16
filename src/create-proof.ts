@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { generateHashForAccount, toBalance } from "./utils"
 /**
  * returns PartialProof for a given node
@@ -43,7 +42,8 @@ export const createProof = ({
   tree,
 }: CreateProofArgs): LiabilityProof | Error => {
   const merkleTree = tree.merkleTree
-  const nonce: Nonce = tree.accountToNonceMap.get(accountId)!
+  if (!tree.accountToNonceMap.has(accountId)) return new Error("Account does not exist")
+  const nonce = tree.accountToNonceMap.get(accountId)
   if (!nonce) {
     return new Error("Account not found")
   }
