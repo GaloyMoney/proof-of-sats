@@ -1,6 +1,6 @@
 {
   "name": "@galoymoney/proof-of-sats",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Library to implement proof-of-liabilities.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
