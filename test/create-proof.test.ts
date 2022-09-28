@@ -23,7 +23,8 @@ describe("createProof function", () => {
   it("should return a LiabilityProof object", () => {
     const accountId = toAccountId("02")
     const liabilityProof = createProof({
-      accountId, tree
+      accountId,
+      tree,
     })
     const expectedBalance = 0
     let calculatedBalance = 0
@@ -38,7 +39,7 @@ describe("createProof function", () => {
   })
   it("should return an empty object for an invalid accountId", () => {
     const accountId = toAccountId("123")
-    const liabilityProof = createProof({accountId , tree})
+    const liabilityProof = createProof({ accountId, tree })
     expect(liabilityProof).toBeInstanceOf(Error)
   })
 })
