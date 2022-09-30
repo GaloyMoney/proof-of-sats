@@ -14,5 +14,5 @@ git add package.json
 git status
 
 if [[ "$(git status -s -uno)" != ""  ]]; then
-  git commit -m "ci(release): release version $(cat ../version/version)"
+  git commit -m "ci(release): release version $(cat ../version/version) [skip ci]"
 fi
