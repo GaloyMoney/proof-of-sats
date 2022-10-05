@@ -17,8 +17,12 @@
   "keywords": [
     "proof-of-liabilities",
     "proof-of-reserves",
-    "proof-of-sats"
+    "proof-of-sats",
+    "full-bank-reserves"
   ],
+  "engines": {
+    "node": "18"
+  },
   "author": "Vaibhav Dixit",
   "license": "ISC",
   "devDependencies": {
