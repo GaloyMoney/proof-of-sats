@@ -1,14 +1,20 @@
 #!/bin/bash
 
+#! Auto synced from Shared CI Resources repository
+#! Don't change this file, instead change it in github.com/GaloyMoney/concourse-shared
+
 set -eu
 
 export digest=$(cat ./edge-image/digest)
+export ref=$(cat ./repo/.git/short_ref)
 
 pushd charts-repo
 
-ref=$(yq e '.image.git_ref' charts/${CHARTS_SUBDIR}/values.yaml)
 git checkout ${BRANCH}
-old_ref=$(yq e '.image.git_ref' charts/${CHARTS_SUBDIR}/values.yaml)
+
+old_digest=$(yq e '.image.digest' "./charts/${CHARTS_SUBDIR}/values.yaml")
+old_ref=$(grep "digest: \"${old_digest}\"" "./charts/${CHARTS_SUBDIR}/values.yaml" \
+  | sed -n 's/.*commit_ref=\([^;]*\);.*/\1/p' | tr -d ' \n')
 
 cat <<EOF >> ../body.md
 # Bump ${CHARTS_SUBDIR} image
