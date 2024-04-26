@@ -2,8 +2,14 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: 'fix: REPO_PATH initialization'
-      sha: 70728a1b62e43be803a337bfae5968b2324f7ea8
+      commitTitle: 'chore: add rust toolchain (#51)'
+      sha: 87fe9058ffc8df9b59c64d5be5f268e18c40abf2
+    path: .
+  path: ../.github/workflows/vendor
+- contents:
+  - git:
+      commitTitle: 'chore: add rust toolchain (#51)'
+      sha: 87fe9058ffc8df9b59c64d5be5f268e18c40abf2
     path: .
   path: vendor
 kind: LockConfig
