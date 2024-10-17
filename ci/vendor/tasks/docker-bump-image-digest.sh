@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#! Auto synced from Shared CI Resources repository
+#! Don't change this file, instead change it in github.com/GaloyMoney/concourse-shared
+
 set -eu
 
 export digest=$(cat ./edge-image/digest)
@@ -9,7 +12,9 @@ export app_version=$(cat version/version)
 pushd charts-repo
 
 yq -i e '.image.digest = strenv(digest)' ./charts/${CHARTS_SUBDIR}/values.yaml
-yq -i e '.image.git_ref = strenv(ref)' ./charts/${CHARTS_SUBDIR}/values.yaml
+
+sed -i "s|\(digest: \"${digest}\"\).*$|\1 # METADATA:: repository=https://github.com/GaloyMoney/${CHARTS_SUBDIR};commit_ref=${ref};app=${CHARTS_SUBDIR};|g" "./charts/${CHARTS_SUBDIR}/values.yaml"
+
 yq -i e '.appVersion = strenv(app_version)' ./charts/${CHARTS_SUBDIR}/Chart.yaml
 
 if [[ -z $(git config --global user.email) ]]; then
